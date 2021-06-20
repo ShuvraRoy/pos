@@ -64,6 +64,40 @@ class ClientController extends Controller
         }
     }
     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return RedirectResponse
+     */
+    public function update(Request $request)
+    {
+        $request->validate([
+            'nombre' => 'required,"'.$request->idclientes.'",idclientes',
+        ]);
+
+        $client = ClientModel::where('idclientes', $request->idclientes)->get()->first();
+        abort_if(!$client, 404);
+        $client->nombre = $request->client_nombre;
+        $client->correo = $request->client_correo;
+        $client->domicilio = $request->client_domicilio ? $request->client_domicilio : null;
+        $client->colonia = $request->client_colonia ? $request->client_colonia : null;
+        $client->codigopostal = $request->client_codigopostal ? $request->client_codigopostal : null;
+        $client->telefono = $request->client_telefono ? $request->client_telefono : null;
+        $client->celular = $request->client_celular ? $request->client_celular : null;
+        $client->rfc = $request->client_rfc ? $request->client_rfc : null;
+        $client->contacto = $request->client_contacto ? $request->client_contacto : null;
+        $client->estado = $request->client_estado ? $request->client_estado : null;
+        $client->pais = $request->client_pais ? $request->client_pais : null;
+        $client->comentarios = $request->client_comentarios ? $request->client_comentarios : null;
+        $client->fecharegistro = date('Y-m-d H:i:s');
+
+        if ($client->save()) {
+            return redirect('clients')->with('success', 'Cliente agregada con éxito');
+        } else {
+            return redirect()->back()->with('error', 'An error occurred! Please try again.');
+        }
+    }
+    /**
      * fetches a list of client from database
      *
      * @return mixed
@@ -79,21 +113,30 @@ class ClientController extends Controller
                 foreach ($get_clients as $row) {
                     $id = $row->idclientes;
                     $name = $row->nombre;
+                    $email = $row->correo ? $row->correo : 'N/A';
                     $direccion = $row->domicilio ? $row->domicilio : 'N/A';
+                    $colonia= $row->colonia ? $row->colonia : 'N/A';
+
+                    $codigopostal= $row->codigopostal ? $row->codigopostal : 'N/A';
                     $telefono= $row->telefono ? $row->telefono : 'N/A';
-                    $email= $row->correo ? $row->correo : 'N/A';
-//                    $edit_btn = "<a href=\"javascript:void(0)\"><span data-toggle=\"tooltip\" onclick='show_edit_modal(\"$id\", \"$name\", \"$row->description\")' data-placement=\"top\" title=\"Edit\" class=\"glyphicon glyphicon-edit\"></span></a>";
-//                    $delete_btn = "<a href=\"javascript:void(0)\"><span data-toggle=\"tooltip\" onclick='show_delete_modal(\"$id\", \"$name\")' data-placement=\"top\" title=\"Delete\" class=\"glyphicon glyphicon-trash\"></span></a>";
+                    $rfc= $row->rfc ? $row->rfc : 'N/A';
+                    $contacto= $row->contacto ? $row->contacto : 'N/A';
+                    $estado= $row->estado ? $row->estado : 'N/A';
+                    $pais= $row->pais ? $row->pais : 'N/A';
+                    $edit_btn = "<a href=\"javascript:void(0)\"><span data-toggle=\"tooltip\" onclick='show_edit_modal(\"$id\", \"$name\", \"$row->telefono\", \"$row->correo\",  \"$row->estado\", \"$row->pais\", \"$row->domicilio\", \"$row->codigopostal\", \"$row->colonia\", \"$row->celular\", \"$row->rfc\",   \"$row->contacto\", \"$row->comentarios\" )' data-placement=\"top\" title=\"Edit\" class=\"glyphicon glyphicon-edit\"></span></a>";
+                    $delete_btn = "<a href=\"javascript:void(0)\"><span data-toggle=\"tooltip\" onclick='show_delete_modal(\"$id\", \"$name\")' data-placement=\"top\" title=\"Delete\" class=\"glyphicon glyphicon-trash\"></span></a>";
 
-
+                    $action = "$edit_btn $delete_btn";
 
                     $temp = array();
                     array_push($temp, $name);
                     array_push($temp, $direccion);
-                    array_push($temp, $telefono);
+                    array_push($temp, $telefono);;
                     array_push($temp, $email);
+                   array_push($temp, $action);
                     array_push($data, $temp);
                 }
+
                 echo json_encode(array('data'=>$data));
             } else {
                 echo '{

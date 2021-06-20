@@ -11,4 +11,5 @@ class ClientModel extends Model
     public $table = 'clientes';
     const UPDATED_AT = null;
     const CREATED_AT = 'fecharegistro';
+    protected $primaryKey = 'idclientes';
 }

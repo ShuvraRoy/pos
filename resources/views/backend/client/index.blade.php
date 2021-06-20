@@ -35,6 +35,7 @@
                     <th>Direccion</th>
                     <th>Telefono</th>
                     <th>E-mail</th>
+                    <th>colonia</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -166,6 +167,133 @@
                     </form>
                 </div>
             </div>
+            <div id="edit_client_modal" class="modal fade"
+                 role="dialog" tabindex="-1">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <form action="{{url('clients/update')}}" class="form-horizontal form-groups-bordered validate"
+                          method="post" role="form" id="edit_generic_name_form">
+                        @csrf
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="text-align: center">Edit Client</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="" class="col-sm-3 control-label">Name <span style="color: red">*</span> </label>
+                                    <div class="col-sm-7">
+                                        <input type="text" name="client_nombre" id="client_nombre"
+                                               class="form-control"
+                                               data-validate="required"
+                                               placeholder=""
+                                        >
+                                        <span id="name_err"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="url" class="col-sm-3 control-label">Telefono</label>
+
+                                    <div class="col-sm-7">
+                                        <textarea class="form-control autogrow" id="client_telefono" name="client_telefono" rows="2"
+                                                  placeholder=""></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="url" class="col-sm-3 control-label">Correo</label>
+
+                                    <div class="col-sm-7">
+                                        <input type="email" name="client_correo" id="client_correo"
+                                               class="form-control"
+                                               placeholder=""
+                                        >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="url" class="col-sm-3 control-label">Estado</label>
+
+                                    <div class="col-sm-7">
+                                        <textarea class="form-control autogrow" id="client_estado" name="client_estado" rows="2"
+                                                  placeholder=""></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="url" class="col-sm-3 control-label">País</label>
+
+                                    <div class="col-sm-7">
+                                        <textarea class="form-control autogrow" id="client_pais" name="client_pais" rows="2"
+                                                  placeholder="Ex: Mexico"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="url" class="col-sm-3 control-label">Domicilio</label>
+
+                                    <div class="col-sm-7">
+                                        <textarea class="form-control autogrow" id="client_domicilio" name="client_domicilio" rows="2"
+                                                  placeholder=""></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="url" class="col-sm-3 control-label">C.P</label>
+
+                                    <div class="col-sm-7">
+                                        <textarea class="form-control autogrow" id="client_codigopostal" name="client_codigopostal" rows="2"
+                                                  placeholder=""></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="url" class="col-sm-3 control-label">Colonia</label>
+
+                                    <div class="col-sm-7">
+                                        <textarea class="form-control autogrow" id="client_colonia" name="client_colonia" rows="2"
+                                                  placeholder=""></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="url" class="col-sm-3 control-label">Celular</label>
+
+                                    <div class="col-sm-7">
+                                        <textarea class="form-control autogrow" id="client_celular" name="client_celular" rows="2"
+                                                  placeholder=""></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="url" class="col-sm-3 control-label">RFC</label>
+
+                                    <div class="col-sm-7">
+                                        <textarea class="form-control autogrow" id="client_rfc" name="client_rfc" rows="2"
+                                                  placeholder=""></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="url" class="col-sm-3 control-label">Contacto</label>
+
+                                    <div class="col-sm-7">
+                                        <textarea class="form-control autogrow" id="client_contacto" name="client_contacto" rows="2"
+                                                  placeholder=""></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="url" class="col-sm-3 control-label">Comentarios</label>
+
+                                    <div class="col-sm-7">
+                                        <textarea class="form-control autogrow" id="client_comentarios" name="client_comentarios" rows="4"
+                                                  placeholder=""></textarea>
+                                    </div>
+                                </div>
+
+                                <input type="hidden" id="idclientes" name="idclientes">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success" id="edit_btn">Update</button>
+                                <button type="button" class="btn btn-white"
+                                        data-dismiss="modal">Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
         </div>
     </div>
@@ -188,7 +316,7 @@
                 dom: 'Bfrtip',
                 "ajax": {
                     "type": 'POST',
-                    "url": '{{url('client/get_client_data')}}',
+                    "url": '{{url('clients/get_client_data')}}',
                     "data" : {
                         "_token": "{{ csrf_token() }}"
                     },
@@ -223,12 +351,22 @@
                 minimumResultsForSearch: -1
             });
         }
-    // function show_edit_modal(id, name, description) {
-    // $('#generic_name_id').val(id);
-    // $('#generic_name').val(name);
-    // $('#generic_name_description').val(description);
-    // $('#edit_generic_name_modal').modal('show');
-    // }
+    function show_edit_modal(idclientes, nombre, telefono, correo, estado, pais, domicilio, codigopostal, colonia, celular,  rfc, contacto,  comentarios) {
+        $('#idclientes').val(idclientes);
+        $('#client_nombre').val(nombre);
+        $('#client_telefono').val(telefono);
+        $('#client_correo').val(correo);
+        $('#client_estado').val(estado);
+        $('#client_pais').val(pais);
+        $('#client_domicilio').val(domicilio);
+        $('#client_codigopostal').val(codigopostal);
+        $('#client_colonia').val(colonia);
+        $('#client_celular').val(celular);
+        $('#client_rfc').val(rfc);
+        $('#client_contacto').val(contacto);
+        $('#client_comentarios').val(comentarios);
+    $('#edit_client_modal').modal('show');
+    }
 
     </script>
 @endsection

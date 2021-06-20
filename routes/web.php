@@ -34,14 +34,9 @@ Route::group(['middleware'=> 'auth'], function() {
 Route::prefix('clients')->group(function (){
     Route::get('/', [App\Http\Controllers\ClientController::class, 'index']);
     Route::post('/store', [App\Http\Controllers\ClientController::class, 'store']);
+    Route::post('/update', [App\Http\Controllers\ClientController::class, 'update']);
     Route::post('/get_client_data', [App\Http\Controllers\ClientController::class, 'fetch_client_data']);
-    Route::post('/check_user_id', 'Central\CentralUserController@check_user_id');
-    Route::post('/get_user_data', 'Central\CentralUserController@fetch_user_data');
-    Route::get('/{user}/edit', 'Central\CentralUserController@edit')->name('user_edit');
-    Route::post('/update', 'Central\CentralUserController@update');
-    Route::post('/change_user_status', 'Central\CentralUserController@toggle_user_status');
-    Route::post('/reset_user_password', 'Central\CentralUserController@reset_user_password');
-    Route::post('/delete', 'Central\CentralUserController@destroy');
+
 });
 
 Auth::routes();
