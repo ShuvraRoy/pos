@@ -35,8 +35,17 @@ Route::prefix('clients')->group(function (){
     Route::get('/', [App\Http\Controllers\ClientController::class, 'index']);
     Route::post('/store', [App\Http\Controllers\ClientController::class, 'store']);
     Route::post('/update', [App\Http\Controllers\ClientController::class, 'update']);
+    Route::post('/delete', [App\Http\Controllers\ClientController::class, 'delete']);
+    Route::get('/{client}/client_sales', [App\Http\Controllers\ClientController::class, 'client_sales'])->name('client_sales');
     Route::post('/get_client_data', [App\Http\Controllers\ClientController::class, 'fetch_client_data']);
-
+});
+Route::prefix('inventory')->group(function (){
+    Route::get('/', [App\Http\Controllers\InventoryController::class, 'index']);
+    Route::post('/store', [App\Http\Controllers\InventoryController::class, 'store']);
+    Route::post('/update', [App\Http\Controllers\InventoryController::class, 'update']);
+    Route::post('/delete', [App\Http\Controllers\InventoryController::class, 'delete']);
+   // Route::get('/{client}/client_sales', [App\Http\Controllers\InventoryController::class, 'client_sales'])->name('client_sales');
+    Route::post('/get_inventory_data', [App\Http\Controllers\InventoryController::class, 'fetch_inventory_data']);
 });
 
 Auth::routes();

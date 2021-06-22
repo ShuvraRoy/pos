@@ -12,19 +12,25 @@
 	<link rel="icon" href="backend/assets/images/favicon.ico">
 
     <title>{{ isset($main_menu) ? $main_menu : "Welcome" }}</title>
+   <link rel='stylesheet' href="{{ asset('backend/assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css') }}"  type='text/css' />
+   <link rel='stylesheet' href="{{ asset('backend/assets/css/bootstrap.css') }}"  type='text/css' />
 
-	<link rel="stylesheet" href="backend/assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css">
-	<link rel="stylesheet" href="backend/assets/css/font-icons/entypo/css/entypo.css">
+{{--//<link rel="stylesheet" href="backend/assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css">--}}
+{{--	<link rel="stylesheet" href="backend/assets/css/font-icons/entypo/css/entypo.css">--}}
 	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic">
-	<link rel="stylesheet" href="backend/assets/css/bootstrap.css">
-	<link rel="stylesheet" href="backend/assets/css/neon-core.css">
-	<link rel="stylesheet" href="backend/assets/css/neon-theme.css">
-	<link rel="stylesheet" href="backend/assets/css/neon-forms.css">
-	<link rel="stylesheet" href="backend/assets/css/custom.css">
+{{--	<link rel="stylesheet" href="backend/assets/css/bootstrap.css">--}}
+    <link rel="stylesheet" href="{{ asset('backend/assets/css/font-icons/entypo/css/entypo.css') }}"  type='text/css' />
+	<link rel="stylesheet" href="{{ asset('backend/assets/css/neon-core.css') }}"  type='text/css' />
+    <link rel="stylesheet" href="{{ asset('backend/assets/css/neon-theme.css') }}"  type='text/css' />
+    <link rel="stylesheet" href="{{ asset('backend/assets/css/neon-forms.css') }}"  type='text/css' />
+    <link rel="stylesheet" href="{{ asset('backend/assets/css/custom.css') }}"  type='text/css' />
+{{--	<link rel="stylesheet" href="backend/assets/css/neon-theme.css">--}}
+{{--	<link rel="stylesheet" href="backend/assets/css/neon-forms.css">--}}
+{{--	<link rel="stylesheet" href="backend/assets/css/custom.css">--}}
 
-	<script src="backend/assets/js/jquery-1.11.3.min.js"></script>
+	<script src="{{ asset('backend/assets/js/jquery-1.11.3.min.js') }}"></script>
 
-	<!--[if lt IE 9]><script src="backend/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+	<!--[if lt IE 9]><script src="{{ asset('backend/assets/js/ie8-responsive-file-warning.js') }}"></script><![endif]-->
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>

@@ -7,7 +7,7 @@
 				<!-- logo -->
 				<div class="logo">
                     <a href="{{url('home')}}">
-						<img src="backend/assets/images/pos_logo.png" width="100"  alt="" />
+						<img src="{{ asset('backend/assets/images/pos_logo.png') }}" width="100"  alt="" />
 					</a>
 				</div>
 
@@ -54,7 +54,7 @@
 
                 </li>
                 <li >
-                    <a href="index.html">
+                    <a href="{{url('inventory')}}">
                         <i class="entypo-tag"></i>
                         <span class="title">Inventario</span>
                     </a>

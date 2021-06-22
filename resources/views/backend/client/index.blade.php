@@ -35,7 +35,7 @@
                     <th>Direccion</th>
                     <th>Telefono</th>
                     <th>E-mail</th>
-                    <th>colonia</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -294,7 +294,34 @@
                     </form>
                 </div>
             </div>
+            <div id="delete_client_modal" class="modal fade"
+                 role="dialog" tabindex="-1">
+                <div class="modal-dialog">
 
+                    <!-- Modal content-->
+                    <form action="{{url('clients/delete')}}" class="form-horizontal form-groups-bordered validate"
+                          method="post" role="form" id="delete_client_form">
+                        @csrf
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="text-align: center; color: #00ffea" >Eliminar cliente</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div style="text-align: center">
+                                    <span id="delete_client"></span> El cliente será eliminado. Está seguro?
+                                </div>
+                                <input type="hidden" id="delete_client_id" name="delete_client_id">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success" id="delete_btn">Delete</button>
+                                <button type="button" class="btn btn-white"
+                                        data-dismiss="modal">Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
@@ -351,22 +378,28 @@
                 minimumResultsForSearch: -1
             });
         }
-    function show_edit_modal(idclientes, nombre, telefono, correo, estado, pais, domicilio, codigopostal, colonia, celular,  rfc, contacto,  comentarios) {
-        $('#idclientes').val(idclientes);
-        $('#client_nombre').val(nombre);
-        $('#client_telefono').val(telefono);
-        $('#client_correo').val(correo);
-        $('#client_estado').val(estado);
-        $('#client_pais').val(pais);
-        $('#client_domicilio').val(domicilio);
-        $('#client_codigopostal').val(codigopostal);
-        $('#client_colonia').val(colonia);
-        $('#client_celular').val(celular);
-        $('#client_rfc').val(rfc);
-        $('#client_contacto').val(contacto);
-        $('#client_comentarios').val(comentarios);
-    $('#edit_client_modal').modal('show');
-    }
+        function show_edit_modal(idclientes, nombre, telefono, correo, estado, pais, domicilio, codigopostal, colonia, celular,  rfc, contacto,  comentarios) {
+            $('#idclientes').val(idclientes);
+            $('#client_nombre').val(nombre);
+            $('#client_telefono').val(telefono);
+            $('#client_correo').val(correo);
+            $('#client_estado').val(estado);
+            $('#client_pais').val(pais);
+            $('#client_domicilio').val(domicilio);
+            $('#client_codigopostal').val(codigopostal);
+            $('#client_colonia').val(colonia);
+            $('#client_celular').val(celular);
+            $('#client_rfc').val(rfc);
+            $('#client_contacto').val(contacto);
+            $('#client_comentarios').val(comentarios);
+            $('#edit_client_modal').modal('show');
+        }
+        function show_delete_modal(idclientes, nombre) {
+            var x = document.getElementById('delete_client');
+            x.innerHTML = nombre;
+            $('#delete_client_id').val(idclientes);
+            $('#delete_client_modal').modal('show');
+        }
 
     </script>
 @endsection
