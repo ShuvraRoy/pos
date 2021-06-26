@@ -129,7 +129,8 @@ class ClientController extends Controller
         if ($client_sales_info->count() > 1) {
             $data = [];
             foreach ($client_sales_info as $row) {
-                $client_sales_item = SalesItemModel::wherein('idventa',$row )
+
+                $client_sales_item = SalesItemModel::wherein('idventa',$row->idventas )
                     ->sum('total');
 //                $idventas = $row->idventas;
 //                $data['idventas'] = $idventas;
@@ -147,9 +148,9 @@ class ClientController extends Controller
         $data['client_info'] = $client_info;
         //$data['idventas'] = $idventas;
         $data['client_sales_info'] = $client_sales_info ;
-//        $client_sales_item = SalesItemModel::select('total')
-//        ->whereIn('idventa',$client_sales_info )
-//            ->get();
+        $client_sales_item = SalesItemModel::select('total')
+        ->whereIn('idventa',$client_sales_info )
+            ->get();
 
         $data['client_sales_item'] = $client_sales_item;
         dd($data);

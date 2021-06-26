@@ -47,6 +47,14 @@ Route::prefix('inventory')->group(function (){
    // Route::get('/{client}/client_sales', [App\Http\Controllers\InventoryController::class, 'client_sales'])->name('client_sales');
     Route::post('/get_inventory_data', [App\Http\Controllers\InventoryController::class, 'fetch_inventory_data']);
 });
+Route::prefix('sales_report')->group(function (){
+    Route::get('/', [App\Http\Controllers\SalesReportController::class, 'index']);
+    Route::post('/store', [App\Http\Controllers\InventoryController::class, 'store']);
+    Route::post('/update', [App\Http\Controllers\InventoryController::class, 'update']);
+    Route::post('/date_filter', [App\Http\Controllers\SalesReportController::class, 'date_filter']);
+    // Route::get('/{client}/client_sales', [App\Http\Controllers\InventoryController::class, 'client_sales'])->name('client_sales');
+    Route::post('/get_sales_report_data', [App\Http\Controllers\SalesReportController::class, 'fetch_sales_report_data']);
+});
 
 Auth::routes();
 

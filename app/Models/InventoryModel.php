@@ -12,4 +12,5 @@ class InventoryModel extends Model
     const UPDATED_AT = null;
     const CREATED_AT = null;
     protected $primaryKey = 'idarticulos';
+
 }

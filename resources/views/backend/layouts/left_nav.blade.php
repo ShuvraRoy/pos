@@ -95,7 +95,7 @@
 					</a>
 					<ul>
 						<li>
-							<a href="layout-api.html">
+							<a href="{{url('sales_report')}}">
                                 <i class="entypo-credit-card"></i>
 								<span class="title">Ventas</span>
 							</a>

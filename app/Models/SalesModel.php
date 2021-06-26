@@ -9,7 +9,10 @@ class SalesModel extends Model
 {
     use HasFactory;
     public $table = 'ventas';
-    const UPDATED_AT = null;
-    const CREATED_AT = 'fecha';
     protected $primaryKey = 'idventas';
+    public function client_info()
+    {
+        return $this->belongsTo(ClientModel::class, 'idcliente');
+    }
+
 }
