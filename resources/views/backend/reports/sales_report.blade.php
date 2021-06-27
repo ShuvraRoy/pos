@@ -31,12 +31,13 @@
             <div class="panel-body">
                 <div class="row input-daterange">
                     <div class="col-md-4">
-                        <input type="text" name="from_date" id="from_date" class="form-control" placeholder="From Date" readonly />
+                        <input type="text" name="from_date" id="from_date" value="{{$from}}" class="form-control" placeholder="From Date" readonly />
                     </div>
                     <div class="col-md-4">
-                        <input type="text" name="to_date" id="to_date" class="form-control" placeholder="To Date" readonly />
+                        <input type="text" name="to_date" id="to_date" value="{{$to}}" class="form-control" placeholder="To Date" readonly />
                     </div>
                     <div class="col-md-4">
+
                         <button type="submit" name="search" id="search" class="btn btn-primary">Search</button>
                     </div>
                 </div>
@@ -73,11 +74,12 @@
     <script type="text/javascript">
 
         jQuery(document).ready(function ($) {
-            initialise_table();
+             initialise_table();
         });
         function initialise_table() {
             var sales_report_table = jQuery("#sales_report_table");
-
+            let from = $("input[name=from_date]").val();
+            let to = $("input[name=to_date]").val();
             sales_report_table.DataTable({
                 "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
                 "bStateSave": false,
@@ -88,27 +90,29 @@
                     "type": 'POST',
                     url:'{{ url("sales_report/get_sales_report_data") }}',
                     "data" : {
-                        "_token": "{{ csrf_token() }}"
+                        "_token": "{{ csrf_token() }}",
+                        from:from,
+                        to:to
                     },
                 },
                 buttons: [
                     {
                         extend: 'copyHtml5', text: '<a><button class="btn btn-primary btn-icon icon-left"><i class="entypo-export"></i>Copy Table Data</button></a>',
-                        title: "Client List",
+                        title: "Sales Report",
                         exportOptions: {
                             columns: [0, 1, 2, 3, 4, 5, 6]
                         }
                     },
                     {
                         extend: 'excelHtml5', text: '<a><button class="btn btn-primary btn-icon icon-left"><i class="entypo-download"></i>Download As Excel</button></a>',
-                        title: "Client List",
+                        title: "Sales Report",
                         exportOptions: {
                             columns: [0, 1, 2, 3, 4, 5, 6]
                         }
                     },
                     {
                         extend: 'pdfHtml5', text: '<a><button class="btn btn-primary btn-icon icon-left"><i class="entypo-download"></i>Download As PDF</button></a>',
-                        title: "Client List",
+                        title: "Sales Report",
                         exportOptions: {
                             columns: [0, 1, 2, 3, 4, 5, 6]
                         }
@@ -121,6 +125,7 @@
                 minimumResultsForSearch: -1
             });
         }
+
         $(document).ready(function(){
             $('.input-daterange').datepicker({
                 todayBtn:'linked',

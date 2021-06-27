@@ -27,35 +27,36 @@ class SalesReportController extends Controller
     public function index()
     {
         $data = [];
+        $data['from'] = '2015-01-01';
+        $data['to'] = date('Y-m-d');
         $data['main_menu'] = "Reportes";
         $data['sub_menu'] = "Ventas";
         return view('backend.reports.sales_report', $data);
     }
     public function date_filter(Request $request)
     {
-        $from = $request->from_date;
-        $to = $request->to_date;
-        if ( $from = null ){
-            $from == '2010-01-01';
-            $to == date('Y-m-d');
-        } else {
-            $from = $from;
-            $to = $to;
-        }
-        dd($from, $to);
-        $this->fetch_sales_report_data($from, $to);
-        return redirect('sales_report');
+        $data = [];
+            if ($request->filled('from_date')) {
+                $from = $request->from_date;
+                $to = $request->to_date;
+            } else {
+                $from = '2010-01-01';
+                $to = date('Y-m-d');
+            }
+        $data['main_menu'] = "Reportes";
+        $data['sub_menu'] = "Ventas";
+        $data['from'] = $from;
+        $data['to'] = $to;
+        return view('backend.reports.sales_report', $data);
     }
     public function fetch_sales_report_data(Request $request)
     {
-//        $from = $request->from_date;
-//        $to = $request->to_date;
+        $from = $request->from;
+        $to = $request->to;
 
-//        //$date = date('Y-m-d');
-//        dd($to);
         $get_sales_report = SalesModel::with('client_info')
-//            ->where('ventas.fetcha_hora', '>=',$from)
-//            ->where('ventas.fetcha_hora', '<=', $to)
+            ->where('ventas.fetcha_hora', '>=',$from)
+            ->where('ventas.fetcha_hora', '<=', $to)
             ->get();
 
             if ($get_sales_report->count() > 0) {
