@@ -62,6 +62,13 @@ Route::prefix('pending_sales_report')->group(function (){
     Route::post('/date_filter', [App\Http\Controllers\PendingSalesReportController::class, 'date_filter']);
     Route::post('/get_pending_sales_report_data', [App\Http\Controllers\PendingSalesReportController::class, 'fetch_pending_sales_report_data']);
 });
+Route::prefix('users')->group(function (){
+    Route::get('/', [App\Http\Controllers\UserController::class, 'index']);
+    Route::post('/store', [App\Http\Controllers\UserController::class, 'store']);
+    Route::post('/update', [App\Http\Controllers\UserController::class, 'update']);
+    Route::post('/delete', [App\Http\Controllers\UserController::class, 'delete']);
+    Route::post('/get_user_data', [App\Http\Controllers\UserController::class, 'fetch_user_data']);
+});
 
 Auth::routes();
 

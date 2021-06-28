@@ -129,11 +129,13 @@
 					<ul>
 						<li>
 							<a href="ui-panels.html">
+                                <i class="entypo-users"></i>
 								<span class="title">Proveedores</span>
 							</a>
 						</li>
 						<li>
-							<a href="ui-tiles.html">
+							<a href="{{url('users')}}">
+                                <i class="entypo-users"></i>
 								<span class="title">Usuarios</span>
 							</a>
 						</li>
