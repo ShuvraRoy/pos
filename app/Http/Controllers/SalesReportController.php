@@ -77,14 +77,14 @@ class SalesReportController extends Controller
                         ->sum('cantidad');
                     if ($get_amount >= $get_total) {
                         $status = "<label class='label label-success'>Liquidado</label>";
-                    } elseif ($get_amount <= $get_total) {
+                    } elseif ($get_amount < $get_total) {
                         $status = "<label class='label label-danger'>Pendiente</label>";
                     }
                     $get_method = SalesPaymentModel::where('idventa', $id)
                         ->get();
                     foreach ($get_method as $nrow) {
                         $method = $nrow->metodo;
-
+                    }
                         $temp = array();
                         array_push($temp, $id);
                         array_push($temp, $fecha_hora);
@@ -94,7 +94,7 @@ class SalesReportController extends Controller
                         array_push($temp, $method);
                         array_push($temp, $get_amount);
                         array_push($data, $temp);
-                    }
+
                 }
                 echo json_encode(array('data'=>$data));
             } else {

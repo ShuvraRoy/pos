@@ -101,13 +101,13 @@
 							</a>
 						</li>
 						<li>
-							<a href="layout-collapsed-sidebar.html">
+							<a href="{{url('cleared_sales_report')}}">
                                 <i class="entypo-check"></i>
 								<span class="title">Liquidados</span>
 							</a>
 						</li>
 						<li>
-							<a href="layout-fixed-sidebar.html">
+							<a href="{{url('pending_sales_report')}}">
                                 <i class="entypo-attention"></i>
 								<span class="title">Pendientes</span>
 							</a>

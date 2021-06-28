@@ -49,11 +49,18 @@ Route::prefix('inventory')->group(function (){
 });
 Route::prefix('sales_report')->group(function (){
     Route::get('/', [App\Http\Controllers\SalesReportController::class, 'index']);
-    Route::post('/store', [App\Http\Controllers\InventoryController::class, 'store']);
-    Route::post('/update', [App\Http\Controllers\InventoryController::class, 'update']);
     Route::post('/date_filter', [App\Http\Controllers\SalesReportController::class, 'date_filter']);
-    // Route::get('/{client}/client_sales', [App\Http\Controllers\InventoryController::class, 'client_sales'])->name('client_sales');
     Route::post('/get_sales_report_data', [App\Http\Controllers\SalesReportController::class, 'fetch_sales_report_data']);
+});
+Route::prefix('cleared_sales_report')->group(function (){
+    Route::get('/', [App\Http\Controllers\ClearedSalesReportController::class, 'index']);
+    Route::post('/date_filter', [App\Http\Controllers\ClearedSalesReportController::class, 'date_filter']);
+    Route::post('/get_cleared_sales_report_data', [App\Http\Controllers\ClearedSalesReportController::class, 'fetch_cleared_sales_report_data']);
+});
+Route::prefix('pending_sales_report')->group(function (){
+    Route::get('/', [App\Http\Controllers\PendingSalesReportController::class, 'index']);
+    Route::post('/date_filter', [App\Http\Controllers\PendingSalesReportController::class, 'date_filter']);
+    Route::post('/get_pending_sales_report_data', [App\Http\Controllers\PendingSalesReportController::class, 'fetch_pending_sales_report_data']);
 });
 
 Auth::routes();
