@@ -69,6 +69,19 @@ Route::prefix('users')->group(function (){
     Route::post('/delete', [App\Http\Controllers\UserController::class, 'delete']);
     Route::post('/get_user_data', [App\Http\Controllers\UserController::class, 'fetch_user_data']);
 });
+Route::prefix('providers')->group(function (){
+    Route::get('/', [App\Http\Controllers\ProviderController::class, 'index']);
+    Route::post('/store', [App\Http\Controllers\ProviderController::class, 'store']);
+    Route::post('/update', [App\Http\Controllers\ProviderController::class, 'update']);
+    Route::post('/delete', [App\Http\Controllers\ProviderController::class, 'delete']);
+    Route::post('/get_provider_data', [App\Http\Controllers\ProviderController::class, 'fetch_provider_data']);
+});
+Route::prefix('accounts_receivable')->group(function (){
+    Route::get('/', [App\Http\Controllers\ReceivableAccountsController::class, 'index']);
+    Route::post('/date_filter', [App\Http\Controllers\ReceivableAccountsController::class, 'date_filter']);
+    Route::get('/{client}/client_sales', [App\Http\Controllers\ReceivableAccountsController::class, 'client_sales'])->name('client_sales');
+    Route::post('/get_receivable_accounts_data', [App\Http\Controllers\ReceivableAccountsController::class, 'fetch_receivable_accounts_data']);
+});
 
 Auth::routes();
 

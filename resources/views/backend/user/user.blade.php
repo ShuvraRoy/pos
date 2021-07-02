@@ -26,7 +26,7 @@
     <div class="panel panel-primary" data-collapsed="0">
         <div class="panel-body">
             <div class="form-group">
-                <button type="button" onclick="jQuery('#add_user_modal').modal('show')" class="btn btn-primary btn-icon icon-left"><i class="entypo-plus"></i>Add New Client</button>
+                <button type="button" onclick="jQuery('#add_user_modal').modal('show')" class="btn btn-primary btn-icon icon-left"><i class="entypo-plus"></i>Agregar Usuario</button>
             </div>
             <table class="table table-bordered datatable" id="user_table">
                 <thead>
@@ -152,7 +152,7 @@
                                     <label class="col-sm-3 control-label">Privilegio</label>
 
                                     <div class="col-sm-7">
-                                        <select name="user_privilegio" id="user_privilegio" class="form-control">
+                                        <select name="user_privilegio" id="user_privilegio"  class="form-control">
                                             <option value="1">Administrador</option>
                                             <option value="2">Usuario</option>
                                         </select>
@@ -255,10 +255,11 @@
                 minimumResultsForSearch: -1
             });
         }
-        function show_edit_modal(userid, name, email) {
+        function show_edit_modal(userid, name, email, privilegio ) {
             $('#userid').val(userid);
             $('#user_name').val(name);
             $('#user_email').val(email);
+            $('#user_privilegio').val(privilegio);
             $('#edit_user_modal').modal('show');
         }
         function show_delete_modal(userid, name) {

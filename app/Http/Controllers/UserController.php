@@ -51,7 +51,6 @@ class UserController extends Controller
         $user->password = Hash::make($request->password_confirmation);
         $user->privilegio = $request->privilegio;
         $user->created_at = date('Y-m-d H:i:s');
-        $user->updated_at = date('Y-m-d H:i:s');
         if ($user->save()) {
             return redirect('users')->with('success', 'Usuario agregada con éxito');
         } else {
@@ -118,16 +117,16 @@ class UserController extends Controller
                 $email = $row->email;
                 $privilegio = $row->privilegio;
                 if ( $privilegio == 1 ){
-                    $privilegio = 'Administrador' ;
-                } else {
-                    $privilegio = 'Usuario' ;
+                    $privilegi = 'Administrador' ;
+                } else if ( $privilegio == 2 ) {
+                    $privilegi = 'Usuario' ;
                 }
                 $edit_btn = "<a href=\"javascript:void(0)\"><span data-toggle=\"tooltip\" onclick='show_edit_modal(\"$id\", \"$name\", \"$email\", \"$privilegio\" )' data-placement=\"top\" title=\"Edit\" class=\"glyphicon glyphicon-edit\"></span></a>";
                 $delete_btn = "<a href=\"javascript:void(0)\"><span data-toggle=\"tooltip\" onclick='show_delete_modal(\"$id\", \"$name\")' data-placement=\"top\" title=\"Delete\" class=\"glyphicon glyphicon-trash\"></span></a>";
 
                 $action = "$edit_btn $delete_btn ";
                 $temp = array();
-                array_push($temp, $privilegio);
+                array_push($temp, $privilegi);
                 array_push($temp, $name);
                 array_push($temp, $email);;
                 array_push($temp, $action);

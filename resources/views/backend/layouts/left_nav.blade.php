@@ -82,7 +82,7 @@
 
                 </li>
                 <li >
-                    <a href="index.html">
+                    <a href="{{url('accounts_receivable')}}">
                         <i class="entypo-calendar"></i>
                         <span class="title">Cuentas por Cobrar</span>
                     </a>
@@ -128,7 +128,7 @@
 					</a>
 					<ul>
 						<li>
-							<a href="ui-panels.html">
+							<a href="{{url('providers')}}">
                                 <i class="entypo-users"></i>
 								<span class="title">Proveedores</span>
 							</a>
