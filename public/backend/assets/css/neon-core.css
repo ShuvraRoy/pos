@@ -2166,7 +2166,7 @@ lesshat-selector {
   color: #373e4a;
   background-color: #f0f0f1;
   border-color: #ebebeb;
-  padding: 0;
+  padding: 8px;
 }
 .panel-default > .panel-heading + .panel-collapse .panel-body {
   border-top-color: #ebebeb;
@@ -3153,8 +3153,8 @@ table > tbody > tr.highlight > th {
 }
 .nav-tabs {
   border-bottom: 1px solid #ddd;
-  margin-top: 20px;
-  margin-bottom: 10px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 .nav-tabs.right-aligned {
   text-align: right;

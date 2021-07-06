@@ -10,6 +10,7 @@ class SalesItemModel extends Model
     use HasFactory;
     public $table = 'ventas_articulos';
     const UPDATED_AT = null;
+    const CREATED_AT = null;
     protected $primaryKey = 'idva';
     public function sales_info()
     {

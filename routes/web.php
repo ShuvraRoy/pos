@@ -82,6 +82,14 @@ Route::prefix('accounts_receivable')->group(function (){
     Route::get('/{client}/client_sales', [App\Http\Controllers\ReceivableAccountsController::class, 'client_sales'])->name('client_sales');
     Route::post('/get_receivable_accounts_data', [App\Http\Controllers\ReceivableAccountsController::class, 'fetch_receivable_accounts_data']);
 });
+Route::prefix('pos')->group(function (){
+    Route::get('/', [App\Http\Controllers\PosController::class, 'index']);
+    Route::get('/get_article_data', [App\Http\Controllers\PosController::class, 'fetch_article_data']);
+    Route::post('/store', [App\Http\Controllers\PosController::class, 'store']);
+    Route::post('/store_inventory', [App\Http\Controllers\PosController::class, 'store_inventory']);
+    Route::post('/store_client', [App\Http\Controllers\PosController::class, 'store_client']);
+    Route::post('/get_receivable_accounts_data', [App\Http\Controllers\PosController::class, 'fetch_receivable_accounts_data']);
+});
 
 Auth::routes();
 

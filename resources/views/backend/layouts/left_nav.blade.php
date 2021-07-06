@@ -47,7 +47,7 @@
 
                 </li>
                 <li >
-                    <a href="index.html">
+                    <a href="{{url('pos')}}">
                         <i class="entypo-window"></i>
                         <span class="title">POS</span>
                     </a>
