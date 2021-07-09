@@ -51,9 +51,7 @@ class PosController extends Controller
     }
     public function store(Request $request)
     {
-        $data = [];
-        $date_time = $request->date_time ;
-        //dd($date_time);
+
         $sale = new SalesModel();
         $sale->fetcha_hora = date('Y-m-d H:i:s');
         $sale->idcliente = $request->cliente;
@@ -106,7 +104,7 @@ class PosController extends Controller
         $delivery->mensaje = $request->e_mensaje;
         $delivery->codigopostal = $request->e_codigopostal;
         $delivery->commentarios = $request->comen;
-        $delivery->save;
+        $delivery->save();
 
         return redirect('home')->with('success', 'Venta agregada con éxito');
     }

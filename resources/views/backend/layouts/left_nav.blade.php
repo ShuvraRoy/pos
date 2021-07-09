@@ -61,7 +61,7 @@
 
                 </li>
                 <li >
-                    <a href="index.html">
+                    <a href="{{url('sales_history')}}">
                         <i class="entypo-basket"></i>
                         <span class="title">Historial de Venta</span>
                     </a>

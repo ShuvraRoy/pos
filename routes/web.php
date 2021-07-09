@@ -90,7 +90,16 @@ Route::prefix('pos')->group(function (){
     Route::post('/store_client', [App\Http\Controllers\PosController::class, 'store_client']);
     Route::post('/get_receivable_accounts_data', [App\Http\Controllers\PosController::class, 'fetch_receivable_accounts_data']);
 });
-
+Route::prefix('sales_history')->group(function (){
+    Route::get('/', [App\Http\Controllers\SalesHistoryController::class, 'index']);
+    Route::post('/store_payment', [App\Http\Controllers\SalesHistoryController::class, 'store_payment']);
+    Route::get('/{sale}/edit_sale', [App\Http\Controllers\SalesHistoryController::class, 'edit_sale'])->name('edit_sale');
+    Route::post('/edit_delivery', [App\Http\Controllers\SalesHistoryController::class, 'edit_delivery']);
+    Route::post('/edit_status', [App\Http\Controllers\SalesHistoryController::class, 'edit_status']);
+    Route::post('/delete', [App\Http\Controllers\SalesHistoryController::class, 'delete']);
+    Route::get('/{sale}/archive', [App\Http\Controllers\SalesHistoryController::class, 'archive'])->name('archive');
+    Route::post('/get_sales_history_data', [App\Http\Controllers\SalesHistoryController::class, 'fetch_sales_history_data']);
+});
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

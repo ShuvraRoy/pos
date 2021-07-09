@@ -81,6 +81,7 @@
             let from = $("input[name=from_date]").val();
             let to = $("input[name=to_date]").val();
             sales_report_table.DataTable({
+                order: [ [0, 'desc'] ],
                 "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
                 "bStateSave": false,
                 "paging": true,
