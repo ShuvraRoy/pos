@@ -93,10 +93,14 @@ Route::prefix('pos')->group(function (){
 Route::prefix('sales_history')->group(function (){
     Route::get('/', [App\Http\Controllers\SalesHistoryController::class, 'index']);
     Route::post('/store_payment', [App\Http\Controllers\SalesHistoryController::class, 'store_payment']);
+    Route::post('/store_modified_sale', [App\Http\Controllers\SalesHistoryController::class, 'store_modified_sale']);
+    Route::get('/get_article_data', [App\Http\Controllers\SalesHistoryController::class, 'fetch_article_data']);
     Route::get('/{sale}/edit_sale', [App\Http\Controllers\SalesHistoryController::class, 'edit_sale'])->name('edit_sale');
     Route::post('/edit_delivery', [App\Http\Controllers\SalesHistoryController::class, 'edit_delivery']);
     Route::post('/edit_status', [App\Http\Controllers\SalesHistoryController::class, 'edit_status']);
     Route::post('/delete', [App\Http\Controllers\SalesHistoryController::class, 'delete']);
+    Route::post('/payment_date', [App\Http\Controllers\SalesHistoryController::class, 'payment_date']);
+    Route::post('/add_payment', [App\Http\Controllers\SalesHistoryController::class, 'add_payment']);
     Route::get('/{sale}/archive', [App\Http\Controllers\SalesHistoryController::class, 'archive'])->name('archive');
     Route::post('/get_sales_history_data', [App\Http\Controllers\SalesHistoryController::class, 'fetch_sales_history_data']);
 });

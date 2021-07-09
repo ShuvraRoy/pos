@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Auth;
 use App\Models\ClientModel;
 use App\Models\InventoryModel;
 use App\Models\SalesStateModel;
@@ -69,6 +69,73 @@ class SalesHistoryController extends Controller
             return redirect('sales_history')->with('success', 'Pago agregada con éxito');
         } else {
             return redirect()->back()->with('error', 'Ocurrió un error! Inténtalo de nuevo.');
+        }
+    }
+    public function store_modified_sale(Request $request)
+    {
+        //dd($request->all());
+        $id = $request->sales_id;
+        $sales_item = SalesItemModel::where('idventa', $id)->first();
+        //dd($sales_item);
+        if ( $sales_item != null ){
+            $sales_item ->delete();
+        }
+        $sale = SalesModel::where('idventas',$id)->get()->first();
+        $sale->idcliente = $request->cliente;
+        $sale->fetcha_hora = date('Y-m-d H:i:s');
+        $sale->idusuario = Auth::user()->id;
+        $sale->descuento = $request->descuento ? $request->descuento : 0;
+        $sale->update();
+        if( $request->idarticulo != null){
+            $idarticulo = $request->idarticulo;
+            $precio = $request->precio;
+            $cantidad = $request->cantidad;
+            $Total = 0;
+            for ( $i=0; $i < count($idarticulo); $i++) {
+                $total = $cantidad[$i] * $precio[$i];
+                InventoryModel::where('idarticulos', $idarticulo[$i])->decrement('stock',$cantidad[$i]);
+                $sales_item = new SalesItemModel();
+                $sales_item->idventa = $id;
+                $sales_item->idarticulo = $idarticulo[$i];
+                $sales_item->precio = $precio[$i];
+                $sales_item->cantidad = $cantidad[$i];
+                $sales_item->total = $total;
+                $sales_item->save();
+                $Total += $total;
+            }
+        }
+        return redirect('sales_history')->with('success', 'Pago agregado correctamente');
+    }
+    public function add_payment(Request $request)
+    {
+        //dd($request->all());
+        $id = $request->payment_id;
+        if ( $request->has('cantidad2') ){
+            $sales_payment = new SalesPaymentModel();
+            $sales_payment->idventa = $id;
+            $sales_payment->fetcha_hora = date('Y-m-d H:i:s');
+            $sales_payment->cantidad = $request->cantidad2;
+            $sales_payment->metodo = $request->metodo;
+            $sales_payment->comentario = $request->comentario ? $request->comentario : "N/A";
+            $sales_payment->save();
+            return redirect()->back()->with('success', 'Pago agregado correctamente');
+        } else {
+            return redirect()->back()->with('error', 'Ocurrió un error! Inténtalo de nuevo');
+        }
+    }
+    public function payment_date(Request $request)
+    {
+        ///dd($request->payment_date);
+        $id = $request->payment_date;
+        if ( $request->has('a_comentarios') ){
+            $sales_credit = new SalesCreditModel();
+            $sales_credit->idventa = $id;
+            $sales_credit->fecha = $request->a_fecha;
+            $sales_credit->comentarios = $request->a_comentarios ? $request->a_comentarios : "N/A";
+            $sales_credit->save();
+            return redirect()->back()->with('success', 'Pago programado con éxito');
+        } else {
+            return redirect()->back()->with('error', 'Ocurrió un error! Inténtalo de nuevo');
         }
     }
     public function delete(Request $request)
@@ -149,6 +216,7 @@ class SalesHistoryController extends Controller
         $article_info = InventoryModel::get();
         $sales_credit = SalesCreditModel::where('idventa', $id)->get();
         $sales_payment = SalesPaymentModel::where('idventa', $id)->get();
+        $total_sales_payment = SalesPaymentModel::where('idventa', $id)->sum('cantidad');
         $delivery_info = DeliveryModel::where('idventa',$id)->get();
         $sales_state = SalesStateModel::where('idventa',$id)->get();
         $data['client_info'] = $client_info ;
@@ -160,10 +228,12 @@ class SalesHistoryController extends Controller
         $data['sales_payment'] = $sales_payment ;
         $data['delivery_info'] = $delivery_info ;
         $data['sales_state'] = $sales_state ;
+        $data['total_sales_payment'] = $total_sales_payment ;
         $data['total_price'] = $Total ;
         //dd($data['Total']);
         return view('backend.sales_history.edit_sale', $data);
     }
+
     public function edit_delivery(Request $request)
     {
         //dd($request->all());
@@ -171,7 +241,7 @@ class SalesHistoryController extends Controller
         $request->validate([
             'e_nombre' => 'required',
         ]);
-        $delivery = DeliveryModel::where('idventa',$id)->get()->first();;
+        $delivery = DeliveryModel::where('idventa',$id)->get()->first();
         $delivery->nombre = $request->e_nombre;
         $delivery->direccion = $request->e_direccion;
         $delivery->fetcha_hora = $request->e_fechaentrega;
@@ -198,14 +268,29 @@ class SalesHistoryController extends Controller
         $sales->estatus = $request->estado;
         $sales->save();
         $sales_status = SalesStateModel::where('idventa',$id)->get()->first();
-        $sales_status->estado = $request->estado;
-        $sales_status->fetcha_hora = date('Y-m-d H:i:s');
-        $sales_status->commentarios = $request->comentarios;
-        if ( $sales_status->save()) {
-            return redirect('sales_history')->with('success', 'Entrega editada correctamente');
+        if ( $sales_status != null){
+            $sales_status->estado = $request->estado;
+            $sales_status->fetcha_hora = date('Y-m-d H:i:s');
+            $sales_status->commentarios = $request->comentarios;
+            if ( $sales_status->save()) {
+                return redirect('sales_history')->with('success', 'Entrega editada correctamente');
+            } else {
+                return redirect()->back()->with('error', 'Ocurrió un error! Inténtalo de nuevo');
+            }
         } else {
-            return redirect()->back()->with('error', 'Ocurrió un error! Inténtalo de nuevo');
+            return redirect()->back()->with('error', 'El estado del pedido no se registra');
         }
+
+    }
+    public function fetch_article_data(Request $request)
+    {
+        $data = [];
+        //dd($request->id);
+        $id = $request->id;
+        $article_info = InventoryModel::where('idarticulos',$id)->get();
+        $data['article_info'] = $article_info;
+        //dd($data);
+        return response()->json($article_info);
     }
     public function fetch_sales_history_data(Request $request)
     {
