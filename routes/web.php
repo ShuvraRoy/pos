@@ -104,6 +104,37 @@ Route::prefix('sales_history')->group(function (){
     Route::get('/{sale}/archive', [App\Http\Controllers\SalesHistoryController::class, 'archive'])->name('archive');
     Route::post('/get_sales_history_data', [App\Http\Controllers\SalesHistoryController::class, 'fetch_sales_history_data']);
 });
+Route::prefix('orders')->group(function (){
+    Route::get('/', [App\Http\Controllers\OrderController::class, 'index']);
+    Route::get('/{sale}/archiv', [App\Http\Controllers\OrderController::class, 'archiv'])->name('archiv');
+    Route::post('/edit_delivery', [App\Http\Controllers\OrderController::class, 'edit_delivery']);
+    Route::post('/edit_status', [App\Http\Controllers\OrderController::class, 'edit_status']);
+    Route::post('/date_filter', [App\Http\Controllers\OrderController::class, 'date_filter']);
+    Route::post('/get_orders_data', [App\Http\Controllers\OrderController::class, 'fetch_orders_data']);
+});
+Route::prefix('service')->group(function (){
+    Route::get('/', [App\Http\Controllers\ServiceController::class, 'index']);
+    Route::post('/delete', [App\Http\Controllers\ServiceController::class, 'delete']);
+    // Route::get('/{client}/client_sales', [App\Http\Controllers\InventoryController::class, 'client_sales'])->name('client_sales');
+    Route::post('/get_service_data', [App\Http\Controllers\ServiceController::class, 'fetch_service_data']);
+});
+Route::prefix('add_service')->group(function (){
+    Route::get('/', [App\Http\Controllers\AddServiceController::class, 'index']);
+    Route::get('/get_article_data', [App\Http\Controllers\AddServiceController::class, 'fetch_article_data']);
+    Route::post('/store', [App\Http\Controllers\AddServiceController::class, 'store']);
+    Route::post('/store_inventory', [App\Http\Controllers\AddServiceController::class, 'store_inventory']);
+    Route::post('/store_client', [App\Http\Controllers\AddServiceController::class, 'store_client']);
+    Route::post('/get_receivable_accounts_data', [App\Http\Controllers\AddServiceController::class, 'fetch_receivable_accounts_data']);
+});
+Route::prefix('accounts_payable')->group(function (){
+    Route::get('/', [App\Http\Controllers\PayableAccountsController::class, 'index']);
+    Route::post('/date_filter', [App\Http\Controllers\PayableAccountsController::class, 'date_filter']);
+    Route::post('/store', [App\Http\Controllers\PayableAccountsController::class, 'store']);
+    Route::post('/store_payment', [App\Http\Controllers\PayableAccountsController::class, 'store_payment']);
+    Route::post('/delete', [App\Http\Controllers\PayableAccountsController::class, 'delete']);
+    Route::get('/{account}/payment', [App\Http\Controllers\PayableAccountsController::class, 'provider_data'])->name('payment');
+    Route::post('/get_accounts_payable_data', [App\Http\Controllers\PayableAccountsController::class, 'fetch_accounts_payable_data']);
+});
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

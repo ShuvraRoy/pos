@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SalesItemModel extends Model
+class ServiceItemModel extends Model
 {
     use HasFactory;
-    public $table = 'ventas_articulos';
+    public $table = 'servicios_articulos';
     const UPDATED_AT = null;
     const CREATED_AT = null;
-    protected $primaryKey = 'idva';
-    public function sales_info()
+    protected $primaryKey = 'idsa';
+    public function service_info()
     {
-        return $this->belongsTo(SalesModel::class, 'idventa');
+        return $this->belongsTo(SalesModel::class, 'idservicio');
     }
-    public function articulo_info()
+    public function inventory_info()
     {
         return $this->belongsTo(InventoryModel::class, 'idarticulo');
     }

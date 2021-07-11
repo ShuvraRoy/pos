@@ -178,7 +178,7 @@ class SalesHistoryController extends Controller
         foreach ( $sales_item as $srow ){
             $total = $srow->total;
             $Total += $total;
-    }
+            }
         $sales_credit = SalesCreditModel::where('idventa', $id)->get();
         $sales_payment = SalesPaymentModel::where('idventa', $id)->get();
         $delivery_info = DeliveryModel::where('idventa',$id)->get();
@@ -352,7 +352,7 @@ class SalesHistoryController extends Controller
                 }
                 $add_btn = "<a href=\"javascript:void(0)\"><span data-toggle=\"tooltip\" onclick='show_add_payment_modal(\"$id\")' data-placement=\"top\" title=\"Add\" class=\"glyphicon glyphicon-usd\"></span></a>";
                 $archive_url = route('archive', ['sale'=>$id]);
-                $archive_btn = "<a href=\"$archive_url\"><span data-toggle=\"tooltip\" data-placement=\"top\" title=\"Archive\" class=\"glyphicon glyphicon-transfer\"></span></a>";
+                $archive_btn = "<a href=\"$archive_url\"><span data-toggle=\"tooltip\" data-placement=\"top\" title=\"Archive\" class=\"fa fa-archive\"></span></a>";
                 $print_btn = "<a href=\"javascript:void(0)\"><span data-toggle=\"tooltip\" onclick='show_edit_modal(\"$id\" )' data-placement=\"top\" title=\"Print\" class=\"glyphicon glyphicon-print\"></span></a>";
                 $edit_url = route('edit_sale', ['sale'=>$id]);
                 $edit_btn = "<a href=\"$edit_url\"><span data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" class=\"glyphicon glyphicon-edit\"></span></a>";

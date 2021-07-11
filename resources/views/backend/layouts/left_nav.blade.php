@@ -68,14 +68,14 @@
 
                 </li>
                 <li >
-                    <a href="index.html">
+                    <a href="{{url('orders')}}">
                         <i class="entypo-box"></i>
                         <span class="title">Pedidos</span>
                     </a>
 
                 </li>
                 <li >
-                    <a href="index.html">
+                    <a href="{{url('service')}}">
                         <i class="entypo-user"></i>
                         <span class="title">Servicios</span>
                     </a>
@@ -116,7 +116,7 @@
 					</ul>
 				</li>
 				<li>
-					<a href="{{url('dropdown')}}" target="_blank">
+					<a href="{{url('accounts_payable')}}" >
 						<i class="entypo-credit-card"></i>
 						<span class="title">Cuentas por pagar</span>
 					</a>
