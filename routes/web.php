@@ -25,6 +25,7 @@ Route::post('/post_login',[App\Http\Controllers\Auth\LoginController::class, 'po
 
 Route::group(['middleware'=> 'auth'], function() {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);
+    Route::post('/home/store_payment', [App\Http\Controllers\HomeController::class, 'store_payment']);
     Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout']);
     Route::get('/session', function(){
 //        dd(Request::session());
@@ -36,7 +37,7 @@ Route::prefix('clients')->group(function (){
     Route::post('/store', [App\Http\Controllers\ClientController::class, 'store']);
     Route::post('/update', [App\Http\Controllers\ClientController::class, 'update']);
     Route::post('/delete', [App\Http\Controllers\ClientController::class, 'delete']);
-    Route::get('/{client}/client_sales', [App\Http\Controllers\ClientController::class, 'client_sales'])->name('client_sales');
+    Route::get('/{client}/client_sale', [App\Http\Controllers\ClientController::class, 'client_sales'])->name('client_sale');
     Route::post('/get_client_data', [App\Http\Controllers\ClientController::class, 'fetch_client_data']);
 });
 Route::prefix('inventory')->group(function (){
@@ -44,7 +45,7 @@ Route::prefix('inventory')->group(function (){
     Route::post('/store', [App\Http\Controllers\InventoryController::class, 'store']);
     Route::post('/update', [App\Http\Controllers\InventoryController::class, 'update']);
     Route::post('/delete', [App\Http\Controllers\InventoryController::class, 'delete']);
-   // Route::get('/{client}/client_sales', [App\Http\Controllers\InventoryController::class, 'client_sales'])->name('client_sales');
+    Route::get('/{inventory}/archive', [App\Http\Controllers\InventoryController::class, 'inventory'])->name('inventory');
     Route::post('/get_inventory_data', [App\Http\Controllers\InventoryController::class, 'fetch_inventory_data']);
 });
 Route::prefix('sales_report')->group(function (){
@@ -78,8 +79,12 @@ Route::prefix('providers')->group(function (){
 });
 Route::prefix('accounts_receivable')->group(function (){
     Route::get('/', [App\Http\Controllers\ReceivableAccountsController::class, 'index']);
+    Route::post('/store_modified_sale', [App\Http\Controllers\ReceivableAccountsController::class, 'store_modified_sale']);
     Route::post('/date_filter', [App\Http\Controllers\ReceivableAccountsController::class, 'date_filter']);
+    Route::get('/get_article_data', [App\Http\Controllers\ReceivableAccountsController::class, 'fetch_article_data']);
     Route::get('/{client}/client_sales', [App\Http\Controllers\ReceivableAccountsController::class, 'client_sales'])->name('client_sales');
+    Route::post('/payment_date', [App\Http\Controllers\ReceivableAccountsController::class, 'payment_date']);
+    Route::post('/add_payment', [App\Http\Controllers\ReceivableAccountsController::class, 'add_payment']);
     Route::post('/get_receivable_accounts_data', [App\Http\Controllers\ReceivableAccountsController::class, 'fetch_receivable_accounts_data']);
 });
 Route::prefix('pos')->group(function (){
@@ -132,8 +137,15 @@ Route::prefix('accounts_payable')->group(function (){
     Route::post('/store', [App\Http\Controllers\PayableAccountsController::class, 'store']);
     Route::post('/store_payment', [App\Http\Controllers\PayableAccountsController::class, 'store_payment']);
     Route::post('/delete', [App\Http\Controllers\PayableAccountsController::class, 'delete']);
+    Route::post('/delete_payment', [App\Http\Controllers\PayableAccountsController::class, 'delete_payment']);
     Route::get('/{account}/payment', [App\Http\Controllers\PayableAccountsController::class, 'provider_data'])->name('payment');
     Route::post('/get_accounts_payable_data', [App\Http\Controllers\PayableAccountsController::class, 'fetch_accounts_payable_data']);
+});
+Route::prefix('add_inventory')->group(function (){
+    Route::get('/', [App\Http\Controllers\AddInventoryController::class, 'index']);
+    Route::post('/delete', [App\Http\Controllers\AddInventoryController::class, 'delete']);
+    Route::post('/store', [App\Http\Controllers\AddInventoryController::class, 'store']);
+    Route::post('/get_service_data', [App\Http\Controllers\AddInventoryController::class, 'fetch_service_data']);
 });
 Auth::routes();
 

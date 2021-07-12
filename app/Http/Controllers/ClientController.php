@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SalesPaymentModel;
 use Illuminate\Http\Request;
 use App\Models\ClientModel;
 use App\Models\SalesItemModel;
@@ -10,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
 {
@@ -122,38 +124,27 @@ class ClientController extends Controller
     public function client_sales(string $id)
     {
         $data = [];
-        $client_info = ClientModel::where('idclientes', $id)->get();
-        $client_sales_info = SalesModel::select('idventas')
-            ->where('idcliente', $id)
-            ->get();
-        if ($client_sales_info->count() > 1) {
-            $data = [];
-            foreach ($client_sales_info as $row) {
-
-                $client_sales_item = SalesItemModel::wherein('idventa',$row->idventas )
-                    ->sum('total');
-//                $idventas = $row->idventas;
-//                $data['idventas'] = $idventas;
-
-            }
-            //dd($client_sales_item);
-//            $client_sales_item = SalesItemModel::where('idventa', $row->idventas)
-//                ->sum('total');
-        } else {
-            echo 'No data found';
-        }
-
-       //dd($client_sales_item);
         $data['main_menu'] = "Clientes";
-        $data['client_info'] = $client_info;
-        //$data['idventas'] = $idventas;
-        $data['client_sales_info'] = $client_sales_info ;
-        $client_sales_item = SalesItemModel::select('total')
-        ->whereIn('idventa',$client_sales_info )
-            ->get();
+        $data['sub_menu'] = "Cliente Ventas";
+        $sale_info = SalesModel::where('ventas.idcliente', $id)
+            ->join('ventas_articulos', 'ventas_articulos.idventa', '=', 'ventas.idventas')
+            ->join('ventas_pagos', 'ventas_pagos.idventa', '=', 'ventas.idventas')
+            ->select('ventas.*','ventas_articulos.total','ventas_pagos.cantidad','ventas.descuento','ventas.fetcha_hora')
+            ->orderBy('idventas', 'DESC')->get();
+//        dd($sale_info);
+        $client_info = ClientModel::where('idclientes', $id)->get();
+//        $bill = $sale_info->total - $sale_info->descuento;
+//        if( $sale_info->cantidad >= $bill ){
+//            $status = 'Liquidado';
+//        } else {
+//            $status = 'Pendiente';
+//        }
+        $data['sale_info'] = $sale_info;
+        //$data['date'] = $sale_info->fetcha_hora;
+        $data['client_info'] = $client_info ;
+//        $data['status'] = $status ;
+//        $data['bill'] = $bill ;
 
-        $data['client_sales_item'] = $client_sales_item;
-        dd($data);
         return view('backend.client.client_sales', $data);
     }
     public function fetch_client_data(Request $request)
@@ -171,7 +162,7 @@ class ClientController extends Controller
                     $telefono= $row->telefono ? $row->telefono : 'N/A';
                     $edit_btn = "<a href=\"javascript:void(0)\"><span data-toggle=\"tooltip\" onclick='show_edit_modal(\"$id\", \"$name\", \"$row->telefono\", \"$row->correo\",  \"$row->estado\", \"$row->pais\", \"$row->domicilio\", \"$row->codigopostal\", \"$row->colonia\", \"$row->celular\", \"$row->rfc\",   \"$row->contacto\", \"$row->comentarios\" )' data-placement=\"top\" title=\"Edit\" class=\"glyphicon glyphicon-edit\"></span></a>";
                     $delete_btn = "<a href=\"javascript:void(0)\"><span data-toggle=\"tooltip\" onclick='show_delete_modal(\"$id\", \"$name\")' data-placement=\"top\" title=\"Delete\" class=\"glyphicon glyphicon-trash\"></span></a>";
-                    $sale_url = route('client_sales', ['client'=>$id]);
+                    $sale_url = route('client_sale', ['client'=>$id]);
                     $sale_btn = "<a href=\"$sale_url\"><span data-toggle=\"tooltip\" data-placement=\"top\" title=\"Sales\" class=\"glyphicon glyphicon-usd\"></span></a>";
 //                    $sale_btn = "<a href='\clients/client_sales/$id '\"><span  class=\"glyphicon glyphicon-usd\"></span></a>";
 

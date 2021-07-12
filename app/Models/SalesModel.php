@@ -14,5 +14,8 @@ class SalesModel extends Model
     {
         return $this->belongsTo(ClientModel::class, 'idcliente');
     }
+    public function venta(){
+        return $this->hasMany('SalesItemModel', 'post_id', 'id');
+    }
 
 }

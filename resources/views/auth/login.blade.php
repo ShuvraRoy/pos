@@ -10,7 +10,7 @@
 
 	<link rel="icon" href="backend/assets/images/favicon.ico">
 
-	<title>Neon | Login</title>
+	<title>POS | Login</title>
 
 	<link rel="stylesheet" href="backend/assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css">
 	<link rel="stylesheet" href="backend/assets/css/font-icons/entypo/css/entypo.css">
@@ -47,9 +47,9 @@ var baseurl = "{{ url('/login') }}";
 
 		<div class="login-content">
 
-{{--			<a href="index.html" class="logo">--}}
-{{--				<img src="backend/assets/images/logo@2x.png" width="120" alt="" />--}}
-{{--			</a>--}}
+			<a href="index.html" class="logo">
+				<img src="backend/assets/images/pos_logo.png" width="120" alt="" />
+			</a>
             <h5> POS v2.0 </h5>
 			<p class="description">Dear user, log in to access the admin area!</p>
 
@@ -88,21 +88,16 @@ var baseurl = "{{ url('/login') }}";
 						<input type="email" class="form-control" name="email" id="email" placeholder="Email" autocomplete="off"  />
 
 					</div>
-
 				</div>
-
 				<div class="form-group">
 
 					<div class="input-group">
 						<div class="input-group-addon">
 							<i class="entypo-key"></i>
 						</div>
-
 						<input type="password" class="form-control" name="password" id="password" placeholder="Password"  autocomplete="off" />
 
-
 					</div>
-
 				</div>
 
 				<div class="form-group">
@@ -112,41 +107,12 @@ var baseurl = "{{ url('/login') }}";
 					</button>
                 </div>
 
-
-
-				<!-- Implemented in v1.1.4 -->
 				<div class="form-group">
 					<em>- or -</em>
 				</div>
 
 
-
-				<!--
-
-				You can also use other social network buttons
-				<div class="form-group">
-
-					<button type="button" class="btn btn-default btn-lg btn-block btn-icon icon-left twitter-button">
-						Login with Twitter
-						<i class="entypo-twitter"></i>
-					</button>
-
-				</div>
-
-				<div class="form-group">
-
-					<button type="button" class="btn btn-default btn-lg btn-block btn-icon icon-left google-button">
-						Login with Google+
-						<i class="entypo-gplus"></i>
-					</button>
-
-				</div> -->
-
 			</form>
-			@if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a>
-                        @endif
-
 
 
 		</div>

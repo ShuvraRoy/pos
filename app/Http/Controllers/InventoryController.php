@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\InventoryItemModel;
 use Illuminate\Http\Request;
 use App\Models\ClientModel;
 use App\Models\SalesItemModel;
@@ -31,34 +32,6 @@ class InventoryController extends Controller
     }
 
     /**
-     * Store a newly created inventory in database.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return RedirectResponse
-     */
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'articulo' => 'required',
-            'precio' => 'required'
-        ]);
-        $inventory = new InventoryModel();
-        $inventory->articulo = $request->articulo;
-        $inventory->precio = $request->precio;
-        $inventory->imagen = $request->imagen ? $request->imagen : null;
-        $inventory->stock = $request->stock ? $request->stock : 0;
-        $inventory->alerta = $request->alerta ? $request->alerta : 0;
-        $inventory->descripcion = $request->descripcion ? $request->descripcion : null;
-        $inventory->observaciones = $request->observaciones ? $request->observaciones : null;
-
-        if ($inventory->save()) {
-            return redirect('inventory')->with('success', 'Articulo agregado correctamente');
-        } else {
-            return redirect()->back()->with('error', '¡Ocurrió un error! Inténtalo de nuevo.');
-        }
-    }
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -66,25 +39,49 @@ class InventoryController extends Controller
      */
     public function update(Request $request)
     {
-        $request->validate([
-            'articulo' => 'required,"'.$request->idarticulos.'",idarticulos',
-        ]);
+        //dd($request->inventory_id);
+        $inventory_id = $request->inventory_id;
+        $inventory = InventoryModel::where('idarticulos',$inventory_id)
+            ->get()->first();
+        if ($request->hasfile('image')) {
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $file->move('backend/assets/images', $filename);
+            $inventory->imagen ="backend/assets/images/$filename";
+            if (file_exists($request->default_image)) {
 
-        $inventory = InventoryModel::where('idarticulos', $request->idarticulos)->get()->first();
-        abort_if(!$inventory, 404);
-        $inventory->articulo = $request->edit_articulo;
-        $inventory->precio = $request->edit_precio;
-        $inventory->imagen = $request->edit_imagen ? $request->edit_imagen : null;;
-        $inventory->stock = $request->edit_stock ? $request->edit_stock : 0;
-        $inventory->alerta = $request->edit_alerta ? $request->edit_alerta : 0;
-        $inventory->descripcion = $request->edit_descripcion ? $request->edit_descripcion : null;
-        $inventory->observaciones = $request->edit_observaciones ? $request->edit_observaciones : null;
+                unlink($request->default_image);
+            }
 
-        if ($inventory->save()) {
-            return redirect('inventory')->with('success', 'Articulos Editado correctamente');
         } else {
-            return redirect()->back()->with('error', '¡Ocurrió un error! Inténtalo de nuevo.');
+
+            $inventory->imagen = $request->default_image;
+
         }
+        $inventory->articulo = $request->nombre;
+        $inventory->precio = $request->precio;
+        $inventory->stock = $request->stock;
+        $inventory->alerta = $request->alerta;
+        $inventory->descripcion = $request->descripcion;
+        $inventory->observaciones = $request->Observaciones;
+        $inventory->save();
+        if ( $request->componente != null){
+            $inventory_item = new InventoryItemModel();
+            $inventory_item->idarticulo = $inventory_id;
+            $component = $request->componente;
+            $cantidad = $request->cantidad;
+            $inventory_item->cantidad = $request->cantidad;
+            for ( $i=0; $i < count($component); $i++) {
+                $inventory_item = new InventoryItemModel();
+                $inventory_item->idarticulo = $inventory_id;
+                $inventory_item->componente = $component[$i];
+                $inventory_item->cantidad = $cantidad[$i];
+                $inventory_item->save();
+            }
+        }
+        return redirect('inventory')->with('success', 'Articulo agregado correctamente');
+
     }
     /**
      * Remove the specified resource from storage.
@@ -106,41 +103,19 @@ class InventoryController extends Controller
         }
     }
 
-    public function inventory_sales(string $id)
+    public function inventory(string $id)
     {
+//        dd($id);
         $data = [];
-        $inventory_info = ClientModel::where('idinventoryes', $id)->get();
-        $inventory_sales_info = SalesModel::select('idventas')
-            ->where('idinventorye', $id)
-            ->get();
-        if ($inventory_sales_info->count() > 1) {
-            $data = [];
-            foreach ($inventory_sales_info as $row) {
-                $inventory_sales_item = SalesItemModel::wherein('idventa',$row )
-                    ->sum('total');
-//                $idventas = $row->idventas;
-//                $data['idventas'] = $idventas;
-
-            }
-            //dd($inventory_sales_item);
-//            $inventory_sales_item = SalesItemModel::where('idventa', $row->idventas)
-//                ->sum('total');
-        } else {
-            echo 'No data found';
-        }
-
-        //dd($inventory_sales_item);
-        $data['main_menu'] = "Clientes";
-        $data['inventory_info'] = $inventory_info;
-        //$data['idventas'] = $idventas;
-        $data['inventory_sales_info'] = $inventory_sales_info ;
-//        $inventory_sales_item = SalesItemModel::select('total')
-//        ->whereIn('idventa',$inventory_sales_info )
-//            ->get();
-
-        $data['inventory_sales_item'] = $inventory_sales_item;
-        dd($data);
-        return view('backend.inventory.inventory_sales', $data);
+        $data['inventory_id'] = $id;
+        $inventory_info = InventoryModel::where('idarticulos', $id)->get();
+        $inventory_item = InventoryItemModel::where('idarticulo', $id)->get();
+        $data['main_menu'] = "Inventario";
+        $data['sub_menu'] = "Editar inventario";
+        $data['inventory_info'] =  $inventory_info;
+        $data['inventory_item'] = $inventory_item;
+        //dd($data);
+        return view('backend.inventory.edit_inventory', $data);
     }
     public function fetch_inventory_data(Request $request)
     {
@@ -155,13 +130,22 @@ class InventoryController extends Controller
                 $description = $row->descripcion ? $row->descripcion : 'N/A';
                 $price = $row->precio;
                 $stock = $row->stock;
-                $edit_btn = "<a href=\"javascript:void(0)\"><span data-toggle=\"tooltip\" onclick='show_edit_modal(\"$id\", \"$name\", \"$price\",\"$stock\",\"$row->alerta\", \"$row->descripcion\", \"$row->observaciones\" )' data-placement=\"top\" title=\"Edit\" class=\"glyphicon glyphicon-edit\"></span></a>";
+                $edit_url = route('inventory', ['inventory'=>$id]);
+                if ($row->imagen == null) {
+                    $image_name = "http://localhost:8000/backend/assets/images/unavailable.png";
+                    $image = "<img height='30' width='30' src= '$image_name'   >";
+                } else {
+                    $image_name = ($row->imagen);
+                    $image = "<img height='30' width='30' src= '$image_name'   >";
+                }
+                $edit_btn = "<a href=\"$edit_url\"><span data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" class=\"glyphicon glyphicon-edit\"></span></a>";
                 $delete_btn = "<a href=\"javascript:void(0)\"><span data-toggle=\"tooltip\" onclick='show_delete_modal(\"$id\", \"$name\")' data-placement=\"top\" title=\"Delete\" class=\"glyphicon glyphicon-trash\"></span></a>";
 
                 $action = "$edit_btn $delete_btn";
                 $temp = array();
                 array_push($temp, $name);
                 array_push($temp, $description);
+                array_push($temp, $image);
                 array_push($temp, $price);
                 array_push($temp, $stock);
                 array_push($temp, $action);

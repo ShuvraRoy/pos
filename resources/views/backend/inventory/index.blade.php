@@ -26,13 +26,14 @@
     <div class="panel panel-primary" data-collapsed="0">
         <div class="panel-body">
             <div class="form-group">
-                <button type="button" onclick="jQuery('#add_inventory_modal').modal('show')" class="btn btn-primary btn-icon icon-left"><i class="entypo-plus"></i>Registrar Articulo</button>
+                <a href = "{{url('add_inventory')}}"><button class="btn btn-primary btn-icon icon-left"><i class="entypo-plus"></i>Registrar Articulo</button></a>
             </div>
             <table class="table table-bordered datatable" id="client_table">
                 <thead>
                 <tr class="replace-inputs">
                     <th>Articulo</th>
                     <th>Description</th>
+                    <th>Imagen</th>
                     <th>Precio</th>
                     <th>Stock</th>
                     <th>Action</th>

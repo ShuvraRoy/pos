@@ -66,7 +66,7 @@ class PayableAccountsController extends Controller
 
         $payment_account = new AccountspaymentModel();
         $payment_account->fetcha_hora = date('Y-m-d H:i:s');
-        $payment_account->idcuenta = $request->id_account;
+        $payment_account->idcuenta = $request->account_id;
         $payment_account->cantidad = $request->abono;
         $payment_account->comentario = "";
         if ($payment_account->save()) {
@@ -95,6 +95,17 @@ class PayableAccountsController extends Controller
             else {
                 return redirect()->back()->with('error', 'Error en la eliminación de Cuenta!');
             }
+    }
+    public function delete_payment(Request $request)
+    {
+        $id = $request->delete_id;
+        //dd($id);
+        $account_payment = AccountspaymentModel::where('idpagos', $id)->first();
+        if ($account_payment->delete()) {
+            return redirect()->back()->with('success', 'Cuenta eliminado con éxito.');
+        } else {
+            return redirect()->back()->with('error', 'Error en la eliminación de Cuenta!');
+        }
     }
 
     public function provider_data(string $id)

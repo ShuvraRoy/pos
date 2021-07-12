@@ -25,7 +25,8 @@
 @section('page_content')
     @include('backend.error.error_msg')
 
-    {{--    <form class="bs-example form-horizontal" id="formaVenta" action="" method="">--}}
+    <form class="bs-example form-horizontal" action="{{url('accounts_payable/delete_payment')}}" method="post">
+        @csrf
     <div class="row">
         <div class="col-md-5">
             <section class="panel panel-default">
@@ -107,16 +108,16 @@
                                 <th width="150" class="text-right">Abonos</th>
                                 <th width="80"></th>
                             </tr>
+                            @foreach($payment_info as $payment)
                             <tr>
-                                @foreach($payment_info as $payment)
-                                <td> {{$payment->fetcha_hora}}</td>
+                                <td>{{$payment->fetcha_hora}}</td>
                                 <td class="text-right">$ {{$payment->cantidad}} pesos</td>
                                 <td class="text-right">
-                                    <a href="" class="btn btn-sm btn-danger"> <i class="fa fa-times"></i> </a>
+{{--                                    <input type="hidden" id="delete_id" name="delete_id" value="{{$payment->idcuenta}}">--}}
+                                    <button type="submit" value="{{$payment->idpagos}}" name="delete_id" id="delete_id" class="btn btn-sm btn-danger"> <i class="fa fa-times"></i></button>
                                 </td>
-                                @endforeach
                             </tr>
-
+                            @endforeach
                             <tr>
                                 <th></th>
                                 <th class="text-right">Total: $ {{$total_payment}} pesos</th>
@@ -128,6 +129,7 @@
             </section>
         </div>
     </div>
+    </form>
     <div class="modal fade" id="modal-pagos">
         <div class="modal-dialog">
             <div class="modal-content">

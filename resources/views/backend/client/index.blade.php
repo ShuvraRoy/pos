@@ -26,7 +26,7 @@
     <div class="panel panel-primary" data-collapsed="0">
         <div class="panel-body">
             <div class="form-group">
-                <button type="button" onclick="jQuery('#add_client_modal').modal('show')" class="btn btn-primary btn-icon icon-left"><i class="entypo-plus"></i>Add New Client</button>
+                <button type="button" onclick="jQuery('#add_client_modal').modal('show')" class="btn btn-primary btn-icon icon-left"><i class="entypo-plus"></i>Agregar nueva cliente</button>
             </div>
             <table class="table table-bordered datatable" id="client_table">
                 <thead>
@@ -336,6 +336,7 @@
             var client_table = jQuery("#client_table");
 
             client_table.DataTable({
+                order: [ [0, 'desc'] ],
                 "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
                 "bStateSave": false,
                 "paging": true,

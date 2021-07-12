@@ -14,6 +14,6 @@ class SalesPaymentModel extends Model
     const CREATED_AT = null;
     public function sales_info()
     {
-        return $this->belongsTo(SalesModel::class, 'idventa ');
+        return $this->belongsTo(SalesModel::class, 'idventa');
     }
 }

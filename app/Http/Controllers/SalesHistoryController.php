@@ -55,7 +55,7 @@ class SalesHistoryController extends Controller
         //dd($request->add_sales_id);
         $request->validate([
             'metod' => 'required',
-            'Pago' => 'number',
+            'Pago' => 'required',
 
         ]);
         $payment = new SalesPaymentModel();
