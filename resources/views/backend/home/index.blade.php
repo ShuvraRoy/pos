@@ -1,5 +1,5 @@
 @extends('backend.layouts.master')
-@section('page_header','Tablero')
+@section('page_header','Inicio')
 @section('page_links')
     <link rel="stylesheet" href="{{ asset('backend/assets/js/datatables/datatables.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/assets/js/select2/select2.css') }}">
@@ -64,10 +64,9 @@
     <div class="row">
         <div class="col-md-12">
             <section class="panel panel-default pos-rlt clearfix">
-                <header class="panel-heading"> <i class="fa fa-archive"></i> Pedidos para hoy</header>
-
+                <header class="panel-heading"><i class="fa fa-archive"></i> Pedidos para hoy </header>
                 <div class="table-responsive">
-                    <table class="table ">
+                    <table class="table " >
                         <tr>
                             <th width="10">#</th>
                             <th width="100">Fecha / Hora</th>
@@ -95,13 +94,10 @@
                             <td class='v-middle'>{{$total}}</td>
                             <td class='text-right'>{{$paid_amount}}</td>
                             <td class='text-right'> {{$status}}</td>
-                            <td class="text-right"></td>>
+                            <td class="text-right"></td>
                             <td><a href="#" data-id="{{$sales_order->idventas}}" class="agregarPago btn btn-sm btn-success"> <i class="fa fa-usd"></i> </a></td>
                             <td class='text-right'><a class='btn btn-sm btn-info' href='{{route('archive', ['sale'=>$sales_order->idventas])}}'><i class='fa fa-archive'></i></a></td>
-                            </tr>
-
-
-
+                        </tr>
                     </table>
                 </div>
             </section>
