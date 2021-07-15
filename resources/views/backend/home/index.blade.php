@@ -84,10 +84,12 @@
 
 
                         <tr>
+                            @if(isset($sales_order))
                             <td class='v-middle'>{{$sales_order->idventas}}</td>
+
                             <td class='v-middle'>{{$sales_order->fetcha_hora}}</td>
                             <td class='v-middle'>{{$status}}</td>
-                            <td class='v-middle'>{{$article}}</td>
+                            <td class='v-middle'>{{$article->articulo}}</td>
                             <td class="v-middle">{{$sales_order->nomcliente}}</td>
                             <td class='v-middle'>{{$sales_order->nombre}}</td>
                             <td class='v-middle'>{{$sales_order->direccion}}</td>
@@ -97,6 +99,7 @@
                             <td class="text-right"></td>
                             <td><a href="#" data-id="{{$sales_order->idventas}}" class="agregarPago btn btn-sm btn-success"> <i class="fa fa-usd"></i> </a></td>
                             <td class='text-right'><a class='btn btn-sm btn-info' href='{{route('archive', ['sale'=>$sales_order->idventas])}}'><i class='fa fa-archive'></i></a></td>
+                            @endif
                         </tr>
                     </table>
                 </div>
@@ -115,12 +118,14 @@
                             <th width="100"> </th>
                         </tr>
                         <tr>
+                            @if(isset($sales_credit))
                             <td class="text-center v-middle">{{$sales_credit->idventa}}</td>
                             <td class="v-middle">{{$sales_credit->fecha}}</td>
                             <td class="v-middle">{{$sales_credit->comentarios}}</td>
                             <td class="v-middle">{{$sales_credit->nombre}}</td>
                             <td class="text-right v-middle">
                                 <a href="{{route('edit_sale', ['sale'=>$sales_credit->idventa])}}" class="btn btn-sm btn-success"> <i class="fa fa-usd"></i> </a>
+                           @endif
                             </td>
                         </tr>
                         </table>

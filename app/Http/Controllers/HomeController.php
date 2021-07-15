@@ -47,12 +47,12 @@ class HomeController extends Controller
                 $delivery_info = DeliveryModel::where('idventa', $sale_id)->get();
                 $get_payment = SalesPaymentModel::where('idventa',$sale_id)->sum('cantidad');
             }
+        } else {
+            $sale_amount = "";
+            $sale_item = "";
+            $delivery_info = "";
+            $get_payment ="";
         }
-//        if( $get_payment >= $sale_amount ){
-//            $status = 'Liquidado';
-//        } else {
-//            $status = 'Liquidado';
-//        }
         $sales_credit = SalesCreditModel::whereDate('ventas_creditos.fecha', Carbon::today())
             ->leftJoin('ventas', 'ventas.idventas', '=', 'ventas_creditos.idventa')
             ->leftJoin('clientes', 'clientes.idclientes', '=', 'ventas.idcliente')
@@ -62,17 +62,25 @@ class HomeController extends Controller
             ->Join('clientes', 'clientes.idclientes', '=', 'ventas.idcliente')
             ->select('destinatarios.*','ventas.estatus','ventas.idventas','ventas.descuento','clientes.nombre as nomcliente')
             ->orderBy('idventa', 'DESC')->first();
-        $total_amount = SalesItemModel::where('idventa',$sales_order->idventas)->sum('total');
-        $paid_amount = SalesPaymentModel::where('idventa',$sales_order->idventas)->sum('cantidad');
-        $article = SalesItemModel::where('ventas_articulos.idventa',$sales_order->idventas)
-            ->leftJoin('articulos','articulos.idarticulos','=', 'ventas_articulos.idarticulo')
-            ->select('articulos.articulo')->first();
-        $total = $total_amount - $sales_order->descuento;
-        if( $paid_amount >= $total ){
-            $status = 'Liquidado';
+        if( $sales_order != null ){
+            $total_amount = SalesItemModel::where('idventa',$sales_order->idventas)->sum('total');
+            $paid_amount = SalesPaymentModel::where('idventa',$sales_order->idventas)->sum('cantidad');
+            $article = SalesItemModel::where('ventas_articulos.idventa',$sales_order->idventas)
+                ->leftJoin('articulos','articulos.idarticulos','=', 'ventas_articulos.idarticulo')
+                ->select('articulos.articulo')->first();
+            $total = $total_amount - $sales_order->descuento;
+            if( $paid_amount >= $total ){
+                $status = 'Liquidado';
+            } else {
+                $status = 'Pendiente';
+            }
         } else {
-            $status = 'Pendiente';
+            $status = "";
+            $article ="";
+            $total = "";
+            $paid_amount = "";
         }
+
         $data['sale_amount'] = $sale_amount;
         $data['sales_info'] = $sales_info;
         $data['sale_item'] = $sale_item;
@@ -81,7 +89,7 @@ class HomeController extends Controller
         $data['sales_credit'] = $sales_credit;
         $data['status'] = $status;
         $data['sales_order'] = $sales_order;
-        $data['article'] = $article->articulo;
+        $data['article'] = $article;
         $data['total'] = $total;
         $data['paid_amount'] = $paid_amount;
 //        dd($article->articulo);
