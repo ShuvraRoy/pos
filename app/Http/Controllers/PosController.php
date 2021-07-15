@@ -79,11 +79,16 @@ class PosController extends Controller
             $Total += $total;
         }
         if ( $request->has('pagocon') ){
+            //dd($request->pagocon);
             $payment = $request->pagocon;
-            if( $payment >= $Total ){
-                $total_payment = $Total;
+            if( $payment != null ){
+                if( $payment >= $Total ){
+                    $total_payment = $Total;
+                } else {
+                    $total_payment = $payment;
+                }
             } else {
-                $total_payment = $payment;
+                $total_payment = 0;
             }
             $sales_payment = new SalesPaymentModel();
             $sales_payment->idventa = $idventa;

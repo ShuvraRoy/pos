@@ -27,7 +27,7 @@
 
             <div class="tile-stats tile-blue">
                 <div class="icon"><i class="fa fa-usd"></i></div>
-                <div class="num" data-start="0" data-end="{{$sale_amount}}" data-prefix="&dollar;" data-postfix="" data-duration="1500" data-delay="0">&dollar; 0 </div>
+                <div class="num" data-start="0" data-end="{{$total}}" data-prefix="&dollar;" data-postfix="" data-duration="1500" data-delay="0">&dollar; 0 </div>
                 <h3>VENTAS DE HOY</h3>
                 <p></p>
             </div>
