@@ -131,19 +131,10 @@ class ClientController extends Controller
             ->join('ventas_pagos', 'ventas_pagos.idventa', '=', 'ventas.idventas')
             ->select('ventas.*','ventas_articulos.total','ventas_pagos.cantidad','ventas.descuento','ventas.fetcha_hora')
             ->orderBy('idventas', 'DESC')->get();
-//        dd($sale_info);
+
         $client_info = ClientModel::where('idclientes', $id)->get();
-//        $bill = $sale_info->total - $sale_info->descuento;
-//        if( $sale_info->cantidad >= $bill ){
-//            $status = 'Liquidado';
-//        } else {
-//            $status = 'Pendiente';
-//        }
         $data['sale_info'] = $sale_info;
-        //$data['date'] = $sale_info->fetcha_hora;
         $data['client_info'] = $client_info ;
-//        $data['status'] = $status ;
-//        $data['bill'] = $bill ;
 
         return view('backend.client.client_sales', $data);
     }
@@ -164,7 +155,6 @@ class ClientController extends Controller
                     $delete_btn = "<a href=\"javascript:void(0)\"><span data-toggle=\"tooltip\" onclick='show_delete_modal(\"$id\", \"$name\")' data-placement=\"top\" title=\"Delete\" class=\"glyphicon glyphicon-trash\"></span></a>";
                     $sale_url = route('client_sale', ['client'=>$id]);
                     $sale_btn = "<a href=\"$sale_url\"><span data-toggle=\"tooltip\" data-placement=\"top\" title=\"Sales\" class=\"glyphicon glyphicon-usd\"></span></a>";
-//                    $sale_btn = "<a href='\clients/client_sales/$id '\"><span  class=\"glyphicon glyphicon-usd\"></span></a>";
 
                     $action = "$edit_btn $delete_btn $sale_btn";
                     $temp = array();

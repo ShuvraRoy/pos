@@ -55,14 +55,14 @@ class SalesHistoryController extends Controller
         //dd($request->add_sales_id);
         $request->validate([
             'metod' => 'required',
-            'Pago' => 'required',
+            'cantidad' => 'required',
 
         ]);
         $payment = new SalesPaymentModel();
         $payment->idventa = $request->add_sales_id;
         $payment->fetcha_hora = date('Y-m-d H:i:s');
         $payment->cantidad = $request->cantidad ;
-        $payment->comentario = $request->comentario ? $request->comentario : null;
+        $payment->comentario = $request->comentario ? $request->comentario : "";
         $payment->metodo = $request->metod;
         //dd($payment);
         if ($payment->save()) {

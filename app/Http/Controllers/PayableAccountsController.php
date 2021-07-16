@@ -53,7 +53,7 @@ class PayableAccountsController extends Controller
         $account_payment->idcuenta = $idcuenta;
         $account_payment->fetcha_hora = date('Y-m-d H:i:s');
         $account_payment->cantidad = $request->abono;
-        $account_payment->comentario = $request->comentarios ? $request->comentarios : null;
+        $account_payment->comentario = $request->comentarios ? $request->comentarios : "";
         if ($account_payment->save()) {
             return redirect('accounts_payable')->with('success', 'Cuentas agregada con éxito');
         } else {

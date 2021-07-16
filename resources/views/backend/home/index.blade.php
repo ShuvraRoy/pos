@@ -25,9 +25,9 @@
     <div class="row">
         <div class="col-sm-3">
 
-            <div class="tile-stats tile-blue">
+            <div class="tile-stats tile-blue" >
                 <div class="icon"><i class="fa fa-usd"></i></div>
-                <div class="num" data-start="0" data-end="{{$total}}" data-prefix="&dollar;" data-postfix="" data-duration="1500" data-delay="0">&dollar; 0 </div>
+                <div class="num" data-start="0" data-end="{{$Total_sale}}" data-prefix="&dollar;" data-postfix="" data-duration="1500" data-delay="0">&dollar; 0 </div>
                 <h3>VENTAS DE HOY</h3>
                 <p></p>
             </div>
@@ -45,7 +45,7 @@
 
             <div class="tile-stats tile-cyan">
                 <div class="icon"><i class="fa fa-usd"></i></div>
-                <div class="num" data-start="0" data-end="{{$income}}" data-prefix="&dollar;" data-postfix="" data-duration="1500" data-delay="0">0 &pound;</div>
+                <div class="num" data-start="0" data-end="{{$income}}" data-prefix="&dollar;" data-postfix="" data-duration="1500" data-delay="0">$ 0 </div>
                 <h3>INGRESOS DE HOY</h3>
                 <p></p>
             </div>
@@ -81,26 +81,43 @@
                             <th width="10"></th>
                             <th width="10"></th>
                         </tr>
-
+                        <?php $i = 0 ?>
+                        @if(isset($sales_order))
+                            @foreach($sales_order as $sales)
 
                         <tr>
-                            @if(isset($sales_order))
-                            <td class='v-middle'>{{$sales_order->idventas}}</td>
-
-                            <td class='v-middle'>{{$sales_order->fetcha_hora}}</td>
-                            <td class='v-middle'>{{$status}}</td>
-                            <td class='v-middle'>{{$article->articulo}}</td>
-                            <td class="v-middle">{{$sales_order->nomcliente}}</td>
-                            <td class='v-middle'>{{$sales_order->nombre}}</td>
-                            <td class='v-middle'>{{$sales_order->direccion}}</td>
-                            <td class='v-middle'>{{$total}}</td>
-                            <td class='text-right'>{{$paid_amount}}</td>
-                            <td class='text-right'> {{$status}}</td>
-                            <td class="text-right"></td>
-                            <td><a href="#" data-id="{{$sales_order->idventas}}" class="agregarPago btn btn-sm btn-success"> <i class="fa fa-usd"></i> </a></td>
-                            <td class='text-right'><a class='btn btn-sm btn-info' href='{{route('archive', ['sale'=>$sales_order->idventas])}}'><i class='fa fa-archive'></i></a></td>
+                            <td class='v-middle'>{{$sales->idventas}}</td>
+                            <td class='v-middle'>{{$sales->fetcha_hora}}</td>
+                            @if($sales->estatus == "Pendiente")
+                                <td class="text-center"> <label class="label label-warning"><strong> Pendiente </strong></label></td>
+                            @elseif($sales->estatus == "En Proceso")
+                                <td class="text-center"> <label class="label label-warning"><strong> En Proceso </strong></label></td>
+                            @elseif($sales->estatus == "En Ruta")
+                                <td class="text-center"> <label class="label label-info"><strong> En Ruta </strong></label></td>
+                            @elseif($sales->estatus == "Entregado")
+                                <td class="text-center"> <label class="label label-success"><strong> Entregado </strong></label></td>
+                            @elseif($sales->estatus == "No Entregado")
+                                <td class="text-center"> <label class="label label-danger"><strong> No Entregado </strong></label></td>
+                           @endif
+                            <td class='v-middle'>{{$article[$i]}}</td>
+                            <td class="v-middle">{{$sales->nomcliente}}</td>
+                            <td class='v-middle'>{{$sales->nombre}}</td>
+                            <td class='v-middle'>{{$sales->direccion}}</td>
+                            <td class='v-middle'>{{$total[$i]}}</td>
+                            <td class='text-right'>{{$paid_amount[$i]}}</td>
+                            @if($paid_amount[$i] >= $total[$i])
+                                <td class="text-center"><label class="label label-success"><strong> Liquidado </strong></label></td>
+                            @else
+                                <td class="text-center"> <label class="label label-warning"><strong> Pendiente</strong></label></td>
                             @endif
+                            <td class="text-right"></td>
+                            <td><a href="#" data-id="{{$sales->idventas}}" class="agregarPago btn btn-sm btn-success"> <i class="fa fa-usd"></i> </a></td>
+                            <td class='text-right'><a class='btn btn-sm btn-info' href='{{route('archive', ['sale'=>$sales->idventas])}}'><i class='fa fa-archive'></i></a></td>
+
                         </tr>
+                                <?php $i++ ?>
+                            @endforeach
+                        @endif
                     </table>
                 </div>
             </section>
@@ -117,17 +134,19 @@
                             <th>Cliente</th>
                             <th width="100"> </th>
                         </tr>
+                        @if(isset($sales_credit))
+                            @foreach($sales_credit as $credit)
                         <tr>
-                            @if(isset($sales_credit))
-                            <td class="text-center v-middle">{{$sales_credit->idventa}}</td>
-                            <td class="v-middle">{{$sales_credit->fecha}}</td>
-                            <td class="v-middle">{{$sales_credit->comentarios}}</td>
-                            <td class="v-middle">{{$sales_credit->nombre}}</td>
+                            <td class="text-center v-middle">{{$credit->idventa}}</td>
+                            <td class="v-middle">{{$credit->fecha}}</td>
+                            <td class="v-middle">{{$credit->comentarios}}</td>
+                            <td class="v-middle">{{$credit->nombre}}</td>
                             <td class="text-right v-middle">
-                                <a href="{{route('edit_sale', ['sale'=>$sales_credit->idventa])}}" class="btn btn-sm btn-success"> <i class="fa fa-usd"></i> </a>
-                           @endif
+                                <a href="{{route('edit_sale', ['sale'=>$credit->idventa])}}" class="btn btn-sm btn-success"> <i class="fa fa-usd"></i> </a>
                             </td>
                         </tr>
+                            @endforeach
+                        @endif
                         </table>
                 </div>
             </section>
