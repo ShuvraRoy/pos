@@ -30,6 +30,7 @@
                 <div class="num" data-start="0" data-end="{{$Total_sale}}" data-prefix="&dollar;" data-postfix="" data-duration="1500" data-delay="0">&dollar; 0 </div>
                 <h3>VENTAS DE HOY</h3>
                 <p></p>
+                </a>
             </div>
 
         </div>
@@ -44,20 +45,24 @@
         <div class="col-sm-3">
 
             <div class="tile-stats tile-cyan">
+                <a class="clear" href="{{url('sales_report/today_sale_report')}}">
                 <div class="icon"><i class="fa fa-usd"></i></div>
                 <div class="num" data-start="0" data-end="{{$income}}" data-prefix="&dollar;" data-postfix="" data-duration="1500" data-delay="0">$ 0 </div>
                 <h3>INGRESOS DE HOY</h3>
                 <p></p>
+                </a>
             </div>
 
         </div>
 
         <div class="col-sm-3">
             <div class="tile-stats tile-green">
+                <a class="clear" href="{{url('orders/today_order_report')}}">
                 <div class="icon"><i class="entypo-tag"></i></div>
                 <div class="num">{{$orders}}</div>
                 <h3>PEDIDOS DE HOY</h3>
                 <p></p>
+                </a>
             </div>
         </div>
     </div>

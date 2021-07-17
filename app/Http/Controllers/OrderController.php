@@ -10,6 +10,7 @@ use App\Models\SalesItemModel;
 use App\Models\SalesModel;
 use App\Models\SalesPaymentModel;
 use App\Models\SalesStateModel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -26,7 +27,7 @@ class OrderController extends Controller
     public function index()
     {
         $data = [];
-        $data['from'] = '2015-01-01';
+        $data['from'] = Carbon::today()->startOfMonth();
         $data['to'] = date('Y-m-d',time()+86400);
         $data['main_menu'] = "Pedidos";
         $data['sub_menu'] = "";
@@ -113,6 +114,15 @@ class OrderController extends Controller
         //dd($data['Total']);
         return view('backend.order.archive', $data);
     }
+    public function today_order_report(Request $request)
+    {
+        $data = [];
+        $data['main_menu'] = "Reportes";
+        $data['sub_menu'] = "Ventas";
+        $data['from'] = date('Y-m-d ');
+        $data['to'] = date('Y-m-d',time()+86400);
+        return view('backend.reports.sales_report', $data);
+    }
     public function date_filter(Request $request)
     {
         $data = [];
@@ -120,8 +130,8 @@ class OrderController extends Controller
             $from = $request->from_date;
             $to = $request->to_date;
         } else {
-            $from = '2010-01-01';
-            $to = date('Y-m-d');
+            $data['from'] = Carbon::today()->startOfMonth();
+            $data['to'] = date('Y-m-d',time()+86400);
         }
         $data['main_menu'] = "Pedidos";
         $data['sub_menu'] = "";

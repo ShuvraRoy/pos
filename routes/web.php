@@ -113,6 +113,7 @@ Route::prefix('sales_history')->group(function (){
 Route::prefix('orders')->group(function (){
     Route::get('/', [App\Http\Controllers\OrderController::class, 'index']);
     Route::get('/{sale}/archiv', [App\Http\Controllers\OrderController::class, 'archiv'])->name('archiv');
+    Route::get('/today_order_report', [App\Http\Controllers\OrderController::class, 'today_order_report']);
     Route::post('/edit_delivery', [App\Http\Controllers\OrderController::class, 'edit_delivery']);
     Route::post('/edit_status', [App\Http\Controllers\OrderController::class, 'edit_status']);
     Route::post('/date_filter', [App\Http\Controllers\OrderController::class, 'date_filter']);
