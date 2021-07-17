@@ -24,8 +24,8 @@
 @section('page_content')
     <div class="row">
         <div class="col-sm-3">
-
             <div class="tile-stats tile-blue" >
+                <a class="clear" href="{{url('sales_report/today_sale_report')}}">
                 <div class="icon"><i class="fa fa-usd"></i></div>
                 <div class="num" data-start="0" data-end="{{$Total_sale}}" data-prefix="&dollar;" data-postfix="" data-duration="1500" data-delay="0">&dollar; 0 </div>
                 <h3>VENTAS DE HOY</h3>

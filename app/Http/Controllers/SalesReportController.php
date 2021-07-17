@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\SalesModel;
 use App\Models\SalesItemModel;
@@ -27,10 +28,19 @@ class SalesReportController extends Controller
     public function index()
     {
         $data = [];
-        $data['from'] = '2015-01-01';
-        $data['to'] = date('Y-m-d');
+        $data['from'] = Carbon::today()->startOfMonth();
+        $data['to'] = date('Y-m-d',time()+86400);
         $data['main_menu'] = "Reportes";
         $data['sub_menu'] = "Ventas";
+        return view('backend.reports.sales_report', $data);
+    }
+    public function today_sale_report(Request $request)
+    {
+        $data = [];
+        $data['main_menu'] = "Reportes";
+        $data['sub_menu'] = "Ventas";
+        $data['from'] = date('Y-m-d ');
+        $data['to'] = date('Y-m-d',time()+86400);
         return view('backend.reports.sales_report', $data);
     }
     public function date_filter(Request $request)
@@ -40,8 +50,8 @@ class SalesReportController extends Controller
                 $from = $request->from_date;
                 $to = $request->to_date;
             } else {
-                $from = '2010-01-01';
-                $to = date('Y-m-d');
+                $data['from'] = Carbon::today()->startOfMonth();
+                $data['to'] = date('Y-m-d',time()+86400);
             }
         $data['main_menu'] = "Reportes";
         $data['sub_menu'] = "Ventas";
@@ -63,6 +73,7 @@ class SalesReportController extends Controller
                 $data = [];
                 foreach ($get_sales_report as $row) {
                     $id = $row->idventas;
+                    //dd($id);
                     $fecha_hora = $row->fetcha_hora;
                     $discount = $row->descuento;
                     if ($row->idcliente != null) {
@@ -82,8 +93,14 @@ class SalesReportController extends Controller
                     }
                     $get_method = SalesPaymentModel::where('idventa', $id)
                         ->get();
-                    foreach ($get_method as $nrow) {
-                        $method = $nrow->metodo;
+                    //dd($get_method);
+                    if ($get_method->count() > 0) {
+                        foreach ($get_method as $nrow) {
+                            $method = $nrow->metodo;
+                        }
+                    }
+                    else {
+                        $method = "";
                     }
                         $temp = array();
                         array_push($temp, $id);

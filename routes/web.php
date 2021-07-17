@@ -51,6 +51,7 @@ Route::prefix('inventory')->group(function (){
 Route::prefix('sales_report')->group(function (){
     Route::get('/', [App\Http\Controllers\SalesReportController::class, 'index']);
     Route::post('/date_filter', [App\Http\Controllers\SalesReportController::class, 'date_filter']);
+    Route::get('/today_sale_report', [App\Http\Controllers\SalesReportController::class, 'today_sale_report']);
     Route::post('/get_sales_report_data', [App\Http\Controllers\SalesReportController::class, 'fetch_sales_report_data']);
 });
 Route::prefix('cleared_sales_report')->group(function (){

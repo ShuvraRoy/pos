@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\SalesModel;
 use App\Models\SalesItemModel;
@@ -25,8 +26,8 @@ class ClearedSalesReportController extends Controller
     public function index()
     {
         $data = [];
-        $data['from'] = '2015-01-01';
-        $data['to'] = date('Y-m-d');
+        $data['from'] = Carbon::today()->startOfMonth();
+        $data['to'] = date('Y-m-d',time()+86400);
         $data['main_menu'] = "Reportes";
         $data['sub_menu'] = "Liquidados";
         return view('backend.reports.cleared_sales_report', $data);
@@ -38,8 +39,8 @@ class ClearedSalesReportController extends Controller
             $from = $request->from_date;
             $to = $request->to_date;
         } else {
-            $from = '2010-01-01';
-            $to = date('Y-m-d');
+            $data['from'] = Carbon::today()->startOfMonth();
+            $data['to'] = date('Y-m-d',time()+86400);
         }
         $data['main_menu'] = "Reportes";
         $data['sub_menu'] = "Liquidados";

@@ -67,7 +67,8 @@ class HomeController extends Controller
             ->select('destinatarios.*','ventas.estatus','ventas.idventas','ventas.descuento','clientes.nombre as nomcliente')
             ->orderBy('idventa', 'DESC')->get();
         //dd($sales_order->idventas);
-        if( $sales_order != null ){
+        if( $sales_order->count() > 0 ){
+            //dd("zz");
             $i = 0;
             foreach ( $sales_order as $sales){
                 $idventas[$i] = $sales->idventas;
@@ -86,20 +87,22 @@ class HomeController extends Controller
                 $i++;
 
             }
+
+
         } else {
-            $status = "";
+//            dd("gg");
             $article ="";
             $total = "";
             $paid_amount = "";
         }
-        //dd($status);
+       // dd($status);
+        $data['status'] = $status;
         $data['sale_amount'] = $sale_amount;
         $data['sales_info'] = $sales_info;
         $data['sale_item'] = $sale_item;
         $data['delivery_info'] = $delivery_info;
         $data['get_payment'] = $get_payment;
         $data['sales_credit'] = $sales_credit;
-        $data['status'] = $status;
         $data['sales_order'] = $sales_order;
         $data['article'] = $article;
         $data['total'] = $total;

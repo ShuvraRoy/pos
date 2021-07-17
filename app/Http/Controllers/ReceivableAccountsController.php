@@ -6,6 +6,7 @@ use App\Models\AccountspaymentModel;
 use App\Models\ClientModel;
 use App\Models\DeliveryModel;
 use App\Models\SalesStateModel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\SalesModel;
 use App\Models\SalesItemModel;
@@ -32,8 +33,8 @@ class ReceivableAccountsController extends Controller
     public function index()
     {
         $data = [];
-        $data['from'] = '2015-01-01';
-        $data['to'] = date('Y-m-d');
+        $data['from'] = Carbon::today()->startOfMonth();
+        $data['to'] = date('Y-m-d',time()+86400);
         $data['main_menu'] = "Cuentas por Cobrar";
         return view('backend.accounts.receivable', $data);
     }
@@ -79,8 +80,8 @@ class ReceivableAccountsController extends Controller
             $from = $request->from_date;
             $to = $request->to_date;
         } else {
-            $from = '2010-01-01';
-            $to = date('Y-m-d');
+            $data['from'] = Carbon::today()->startOfMonth();
+            $data['to'] = date('Y-m-d',time()+86400);
         }
         $data['main_menu'] = "Cuentas por Cobrar";
         $data['from'] = $from;
