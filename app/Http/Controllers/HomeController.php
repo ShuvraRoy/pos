@@ -96,7 +96,6 @@ class HomeController extends Controller
             $paid_amount = "";
         }
        // dd($status);
-        $data['status'] = $status;
         $data['sale_amount'] = $sale_amount;
         $data['sales_info'] = $sales_info;
         $data['sale_item'] = $sale_item;
