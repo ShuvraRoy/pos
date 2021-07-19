@@ -121,7 +121,7 @@ class OrderController extends Controller
         $data['sub_menu'] = "Ventas";
         $data['from'] = date('Y-m-d ');
         $data['to'] = date('Y-m-d',time()+86400);
-        return view('backend.reports.sales_report', $data);
+        return view('backend.order.order', $data);
     }
     public function date_filter(Request $request)
     {
