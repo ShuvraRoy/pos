@@ -27,7 +27,7 @@ class ClearedSalesReportController extends Controller
     {
         $data = [];
         $data['from'] = Carbon::today()->startOfMonth();
-        $data['to'] = date('Y-m-d',time()+86400);
+        $data['to'] = date('Y-m-d');
         $data['main_menu'] = "Reportes";
         $data['sub_menu'] = "Liquidados";
         return view('backend.reports.cleared_sales_report', $data);
@@ -40,7 +40,7 @@ class ClearedSalesReportController extends Controller
             $to = $request->to_date;
         } else {
             $data['from'] = Carbon::today()->startOfMonth();
-            $data['to'] = date('Y-m-d',time()+86400);
+            $data['to'] = date('Y-m-d');
         }
         $data['main_menu'] = "Reportes";
         $data['sub_menu'] = "Liquidados";
@@ -52,10 +52,11 @@ class ClearedSalesReportController extends Controller
     {
         $from = $request->from;
         $to = $request->to;
+        $toDate = date('Y-m-d', strtotime($to . " +1 days"));
 
         $get_sales_report = SalesModel::with('client_info')
             ->where('ventas.fetcha_hora', '>=',$from)
-            ->where('ventas.fetcha_hora', '<=',$to)
+            ->where('ventas.fetcha_hora', '<=',$toDate)
             ->get();
 
         if ($get_sales_report->count() > 0) {

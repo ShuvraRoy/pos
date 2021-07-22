@@ -30,7 +30,7 @@ class PayableAccountsController extends Controller
     {
         $data = [];
         $data['from'] = Carbon::today()->startOfMonth();
-        $data['to'] = date('Y-m-d',time()+86400);
+        $data['to'] = date('Y-m-d');
         $data['main_menu'] = "Cuentas por pagar";
         $data['sub_menu'] = "";
         $provider_info = ProviderModel::get();
@@ -151,7 +151,7 @@ class PayableAccountsController extends Controller
             $to = $request->to_date;
         } else {
             $data['from'] = Carbon::today()->startOfMonth();
-            $data['to'] = date('Y-m-d',time()+86400);
+            $data['to'] = date('Y-m-d');
         }
         $data['main_menu'] = "Cuentas por pagar";
         $data['sub_menu'] = "";
@@ -165,9 +165,10 @@ class PayableAccountsController extends Controller
     {
         $from = $request->from;
         $to = $request->to;
+        $toDate = date('Y-m-d', strtotime($to . " +1 days"));
         //dd($request->all());
         $get_accounts_payable = PayableAccountsModel::where('fetcha_hora', '>=',$from)
-            ->where('fetcha_hora', '<=',$to)
+            ->where('fetcha_hora', '<=',$toDate)
             ->orderBy('idcuentas', 'DESC')
             ->get();
         //dd($get_accounts_payable);

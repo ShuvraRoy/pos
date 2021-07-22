@@ -28,7 +28,7 @@ class OrderController extends Controller
     {
         $data = [];
         $data['from'] = Carbon::today()->startOfMonth();
-        $data['to'] = date('Y-m-d',time()+86400);
+        $data['to'] = date('Y-m-d');
         $data['main_menu'] = "Pedidos";
         $data['sub_menu'] = "";
         return view('backend.order.order', $data);
@@ -119,8 +119,8 @@ class OrderController extends Controller
         $data = [];
         $data['main_menu'] = "Reportes";
         $data['sub_menu'] = "Ventas";
-        $data['from'] = date('Y-m-d ');
-        $data['to'] = date('Y-m-d',time()+86400);
+        $data['from'] = date('Y-m-d');
+        $data['to'] = date('Y-m-d');
         return view('backend.order.order', $data);
     }
     public function date_filter(Request $request)
@@ -131,7 +131,7 @@ class OrderController extends Controller
             $to = $request->to_date;
         } else {
             $data['from'] = Carbon::today()->startOfMonth();
-            $data['to'] = date('Y-m-d',time()+86400);
+            $data['to'] = date('Y-m-d');
         }
         $data['main_menu'] = "Pedidos";
         $data['sub_menu'] = "";
@@ -143,10 +143,12 @@ class OrderController extends Controller
     {
         $from = $request->from;
         $to = $request->to;
+        $toDate = date('Y-m-d', strtotime($to . " +1 days"));
+
         //dd($request->all());
         $get_orders = DeliveryModel::with('sale_info')
             ->where('destinatarios.fetcha_hora', '>=',$from)
-            ->where('destinatarios.fetcha_hora', '<=',$to)
+            ->where('destinatarios.fetcha_hora', '<=',$toDate)
             ->orderBy('id', 'DESC')
             ->get();
         //dd($get_orders);

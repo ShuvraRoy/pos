@@ -34,7 +34,7 @@ class ReceivableAccountsController extends Controller
     {
         $data = [];
         $data['from'] = Carbon::today()->startOfMonth();
-        $data['to'] = date('Y-m-d',time()+86400);
+        $data['to'] = date('Y-m-d');
         $data['main_menu'] = "Cuentas por Cobrar";
         return view('backend.accounts.receivable', $data);
     }
@@ -81,7 +81,7 @@ class ReceivableAccountsController extends Controller
             $to = $request->to_date;
         } else {
             $data['from'] = Carbon::today()->startOfMonth();
-            $data['to'] = date('Y-m-d',time()+86400);
+            $data['to'] = date('Y-m-d');
         }
         $data['main_menu'] = "Cuentas por Cobrar";
         $data['from'] = $from;
@@ -184,10 +184,11 @@ class ReceivableAccountsController extends Controller
     {
         $from = $request->from;
         $to = $request->to;
+        $toDate = date('Y-m-d', strtotime($to . " +1 days"));
 
         $get_receivable_accounts = SalesCreditModel::with('sales_info')
             ->where('ventas_creditos.fecha', '>=',$from)
-            ->where('ventas_creditos.fecha', '<=', $to)
+            ->where('ventas_creditos.fecha', '<=', $toDate)
             ->get();
 
         if ($get_receivable_accounts->count() > 0) {
