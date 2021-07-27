@@ -74,7 +74,8 @@
                     <table class="table " >
                         <tr>
                             <th width="10">#</th>
-                            <th width="100">Fecha / Hora</th>
+                            <th width="100">Fecha</th>
+                            <th width="100">Hora</th>
                             <th width="100">Estado</th>
                             <th>Articulos</th>
                             <th>Cliente</th>
@@ -93,6 +94,7 @@
                         <tr>
                             <td class='v-middle'>{{$sales->idventas}}</td>
                             <td class='v-middle'>{{$sales->fetcha_hora}}</td>
+                            <td class='v-middle'>{{$sales->hora}}</td>
                             @if($sales->estatus == "Pendiente")
                                 <td class="text-center"> <label class="label label-warning"><strong> Pendiente </strong></label></td>
                             @elseif($sales->estatus == "En Proceso")

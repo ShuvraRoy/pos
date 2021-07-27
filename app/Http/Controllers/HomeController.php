@@ -78,6 +78,7 @@ class HomeController extends Controller
                 $article[$i] = SalesItemModel::where('ventas_articulos.idventa',$idventas[$i])
                     ->leftJoin('articulos','articulos.idarticulos','=', 'ventas_articulos.idarticulo')
                     ->value('articulos.articulo');
+                dd($article[$i]);
                 $total[$i] = $total_amount[$i] - $discount;
                 if( $paid_amount[$i] >= $total[$i] ){
                     $status[$i] = 'Liquidado';
