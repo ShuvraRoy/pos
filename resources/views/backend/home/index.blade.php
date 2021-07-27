@@ -106,7 +106,7 @@
                             @elseif($sales->estatus == "No Entregado")
                                 <td class="text-center"> <label class="label label-danger"><strong> No Entregado </strong></label></td>
                            @endif
-                            <td class='v-middle'>{{$article[$i]}}</td>
+                            <td class='v-middle'>{!! $article[$i] !!}</td>
                             <td class="v-middle">{{$sales->nomcliente}}</td>
                             <td class='v-middle'>{{$sales->nombre}}</td>
                             <td class='v-middle'>{{$sales->direccion}}</td>

@@ -77,7 +77,8 @@ class HomeController extends Controller
                 $paid_amount[$i] = SalesPaymentModel::where('idventa',$idventas[$i])->sum('cantidad');
                 $article[$i] = SalesItemModel::where('ventas_articulos.idventa',$idventas[$i])
                     ->leftJoin('articulos','articulos.idarticulos','=', 'ventas_articulos.idarticulo')
-                    ->value('articulos.articulo');
+                    ->pluck('articulos.articulo');
+
                 $total[$i] = $total_amount[$i] - $discount;
                 if( $paid_amount[$i] >= $total[$i] ){
                     $status[$i] = 'Liquidado';
@@ -87,7 +88,7 @@ class HomeController extends Controller
                 $i++;
 
             }
-
+           // dd($article);
 
         } else {
 //            dd("gg");

@@ -227,7 +227,7 @@
                             <div class="tab-pane" id="credito">
                                 <div class="row">
                                     <div class="col-md-12 m-b">
-                                        <a href="" class="agendarPago btn btn-sm btn-success"> <i class="fa fa-plus"></i> Agengar Pago</a>
+                                        <a href="#" class="agendarPago btn btn-sm btn-success"> <i class="fa fa-plus"></i> Agengar Pago</a>
                                     </div>
                                 </div>
                                 <div class="table-responsive">
