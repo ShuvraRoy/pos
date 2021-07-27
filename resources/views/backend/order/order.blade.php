@@ -49,7 +49,8 @@
                 <thead>
                 <tr class="replace-inputs">
                     <th>#</th>
-                    <th>Fecha / Hora</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
                     <th>Cliente</th>
                     <th>Para</th>
                     <th>Direccion</th>

@@ -192,8 +192,12 @@
                                         <div class="col-md-8"><input required type="text" class="form-control" name="e_direccion" id="e_direccion"></div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-4 control-label"><strong>Fecha / Hora Entrega</strong></label>
-                                        <div class="col-md-8"><input type="datetime-local" name="date_time" id="date_time" value="{{Carbon::now()->format('Y-m-d\TH:i')}}" /></div>
+                                        <label class="col-md-4 control-label"><strong>Fecha Entrega</strong></label>
+                                        <div class="col-md-8"><input type="date" name="date" id="date" value="<?php echo date("Y-m-d"); ?>" /></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label"><strong> Hora </strong></label>
+                                        <div class="col-md-8"><input type="text" name="time" id="time" placeholder="HH:MM" /></div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-4 control-label"><strong>Comentarios</strong></label>

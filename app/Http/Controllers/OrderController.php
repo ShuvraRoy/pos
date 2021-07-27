@@ -157,6 +157,7 @@ class OrderController extends Controller
             foreach ($get_orders as $row) {
                 $id = $row->idventa;
                 $fecha_hora = $row->fetcha_hora;
+                $hora = $row->hora;
                 $delivery_name = $row->nombre;
                 $delivery_address = $row->direccion;
                 $delivery_coloni = $row->colonia;
@@ -234,6 +235,7 @@ class OrderController extends Controller
 
                     array_push($temp, $id);
                     array_push($temp, $fecha_hora);
+                    array_push($temp, $hora);
                     array_push($temp, $client_name);
                     array_push($temp, $delivery_name);
                     array_push($temp, $direction);

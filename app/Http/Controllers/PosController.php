@@ -51,7 +51,6 @@ class PosController extends Controller
     }
     public function store(Request $request)
     {
-
         $sale = new SalesModel();
         $sale->fetcha_hora = date('Y-m-d H:i:s');
         $sale->idcliente = $request->cliente;
@@ -103,7 +102,8 @@ class PosController extends Controller
         $delivery->idventa = $idventa;
         $delivery->nombre = $request->e_nombre;
         $delivery->direccion = $request->e_direccion;
-        $delivery->fetcha_hora = $request->date_time ;
+        $delivery->fetcha_hora = $request->date ;
+        $delivery->hora = $request->time ;
         $delivery->referencia = $request->e_referencia;
         $delivery->colonia = $request->e_colonia;
         $delivery->mensaje = $request->e_mensaje;
