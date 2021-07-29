@@ -106,7 +106,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th width="200">Cambio: </th>
+                                        <th width="200">Saldo: </th>
                                         <td width="300" class="text-right"> $ <span id="cambio"> 0.00 </span> pesos</td>
                                     </tr>
                                 </table>
@@ -432,7 +432,7 @@
             var total = $("#total").html();
             var pago  = $(this).val();
 
-            var resta = parseFloat(pago) - parseFloat(total);
+            var resta = parseFloat(total) - parseFloat(pago);
             $("#cambio").html(resta);
         });
         $("#finalizar").click(function(e){
