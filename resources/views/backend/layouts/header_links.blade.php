@@ -23,6 +23,8 @@
     <link rel="stylesheet" href="{{ asset('backend/assets/css/neon-theme.css') }}"  type='text/css' />
     <link rel="stylesheet" href="{{ asset('backend/assets/css/neon-forms.css') }}"  type='text/css' />
     <link rel="stylesheet" href="{{ asset('backend/assets/css/custom.css') }}"  type='text/css' />
+{{--<link rel="stylesheet" href="{{ asset('backend/assets/css/skins/green.css') }}"  type='text/css' />--}}
+
 
 	<script src="{{ asset('backend/assets/js/jquery-1.11.3.min.js') }}"></script>
 

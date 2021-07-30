@@ -19,27 +19,7 @@
 							<li class="caret"></li>
 
 							<!-- Profile sub-links -->
-							<li>
-								<a href="extra-timeline.html">
-									<i class="entypo-user"></i>
-									Edit Profile
-								</a>
-							</li>
-
-{{--							<li>--}}
-{{--								<a href="mailbox.html">--}}
-{{--									<i class="entypo-mail"></i>--}}
-{{--									Inbox--}}
-{{--								</a>--}}
-{{--							</li>--}}
-
-							<li>
-								<a href="extra-calendar.html">
-									<i class="entypo-calendar"></i>
-									Calendar
-								</a>
-							</li>
-
+                            
 							<li>
                                 <a class="entypo-logout right" href="{{ url('/logout') }}"
                                    onclick="event.preventDefault();
