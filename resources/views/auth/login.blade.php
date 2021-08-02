@@ -38,7 +38,7 @@
 
 <!-- This is needed when you send requests via Ajax -->
 <script type="text/javascript">
-var baseurl = "{{ url('/login') }}";
+var baseurl = "{{ url('/post_login') }}";
 </script>
 
 <div class="login-container">
@@ -70,10 +70,10 @@ var baseurl = "{{ url('/login') }}";
 
 		<div class="login-content">
 
-			<div class="form-login-error">
-				<h3>Invalid login</h3>
-				<p>Enter <strong>demo</strong>/<strong>demo</strong> as login and password.</p>
-			</div>
+            <div class="form-login-error">
+                <h3>Invalid login</h3>
+                <p>Please enter valid <strong>email and password</strong></p>
+            </div>
 
 			<form method="post" role="form" id="form_login" >
                 <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">

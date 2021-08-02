@@ -52,8 +52,8 @@ class LoginController extends Controller
 
     public function post_login(Request $request)
     {
-        $login_status = false;
-        $resp = array('accessGranted' => false, 'errors' => '');
+        $login_status = 'invalid';
+//        $resp = array('accessGranted' => false, 'errors' => '');
         $email = $request->email;
         $password = $request->password;
         if(Auth::attempt(['email' => $email, 'password' => $password])) {
@@ -68,17 +68,18 @@ class LoginController extends Controller
             ];
             session(['user_data' => $user_data]);
 
-            $login_status = true;
+            $login_status = 'success';
         }
-        if($login_status == true)
+        $resp['login_status'] = $login_status;
+        if($login_status == 'success')
         {
             //$resp['accessGranted'] = true;
-            $resp['login_status'] = $login_status;
+            $resp['redirect_url'] = "home";
         }
-        else
-        {
-            $resp['errors'] = '<strong>Invalid login!</strong><br />Please enter valid user id and password.<br />';
-        }
+//        else
+//        {
+//            $resp['errors'] = '<strong>Invalid login!</strong><br />Please enter valid user id and password.<br />';
+//        }
         echo json_encode($resp);
     }
     public function logout(Request $request)

@@ -61,7 +61,7 @@ var neonLogin = neonLogin || {};
 
 					// Send data to the server
 					$.ajax({
-						"url": "/post_login",
+						"url": baseurl,
 						"method": 'POST',
 						"dataType": 'json',
 						"data": {
@@ -70,12 +70,15 @@ var neonLogin = neonLogin || {};
 							"email": $("input#email").val(),
 							"password":  $("input#password").val()
 						},
-
+                        error: function()
+                        {
+                            alert("An error occoured!");
+                        },
 						"success": function(response)
 						{
 							// Login status [success|invalid]
 
-							var accessGranted = response.login_status;
+                            var login_status = response.login_status;
 
 							// Form is fully completed, we update the percentage
 							neonLogin.setPercentage(100);
@@ -85,23 +88,25 @@ var neonLogin = neonLogin || {};
 							setTimeout(function()
 							{
 								// If login is invalid, we store the
-								if(accessGranted == false)
+                                if(login_status == 'invalid')
 								{
 									$(".login-page").removeClass('logging-in');
 									neonLogin.resetProgressBar(true);
 								}
 								else
-								if(accessGranted === true)
+                                if(login_status == 'success')
 								{
                                     // Redirect to login page
 									setTimeout(function()
 									{
 
-                                        var redirect_url = '/home';
+                                        var redirect_url = baseurl;
 
-
-
-										window.location.href = redirect_url;
+                                        if(response.redirect_url && response.redirect_url.length)
+                                        {
+                                            redirect_url = response.redirect_url;
+                                        }
+                                        window.location.href = redirect_url;
 									}, 400);
 								}
 
