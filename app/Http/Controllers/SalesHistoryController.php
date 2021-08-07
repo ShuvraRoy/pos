@@ -182,7 +182,7 @@ class SalesHistoryController extends Controller
         $sales_credit = SalesCreditModel::where('idventa', $id)->get();
         $sales_payment = SalesPaymentModel::where('idventa', $id)->get();
         $delivery_info = DeliveryModel::where('idventa',$id)->get();
-        $sales_state = SalesStateModel::where('idventa',$id)->get();
+        $sales_state = SalesStateModel::where('idventa',$id)->orderBy('idestados', 'DESC')->get();
         $data['client_info'] = $client_info ;
         $data['sales_info'] = $sales_info ;
         $data['sales_item'] = $sales_item ;
@@ -267,19 +267,20 @@ class SalesHistoryController extends Controller
         $sales = SalesModel::where('idventas',$id)->get()->first();
         $sales->estatus = $request->estado;
         $sales->save();
-        $sales_status = SalesStateModel::where('idventa',$id)->get()->first();
-        if ( $sales_status != null){
+        $sales_status = new SalesStateModel;
+//        if ( $sales_status != null){
+            $sales_status->idventa = $id;
             $sales_status->estado = $request->estado;
             $sales_status->fetcha_hora = date('Y-m-d H:i:s');
             $sales_status->commentarios = $request->comentarios;
             if ( $sales_status->save()) {
-                return redirect('sales_history')->with('success', 'Entrega editada correctamente');
+                return redirect()->back()->with('success', 'Entrega editada correctamente');
             } else {
                 return redirect()->back()->with('error', 'Ocurrió un error! Inténtalo de nuevo');
             }
-        } else {
-            return redirect()->back()->with('error', 'El estado del pedido no se registra');
-        }
+//        } else {
+//            return redirect('home');
+//        }
 
     }
     public function fetch_article_data(Request $request)
@@ -305,7 +306,6 @@ class SalesHistoryController extends Controller
                 $discount = $row->descuento;
                 if ($row->idcliente != null) {
                     $client_name = $row->client_info->nombre;
-                    $client_address = $row->client_info->nombre;
                 } else {
                     $client_name = 'N/A';
                 }
@@ -334,11 +334,11 @@ class SalesHistoryController extends Controller
                 } elseif ($get_amount < $get_total) {
                     $status = "<label class='label label-danger'>Pendiente</label>";
                 }
-                $get_method = SalesPaymentModel::where('idventa', $id)
-                    ->get();
-                foreach ($get_method as $nrow) {
-                    $method = $nrow->metodo;
-                }
+//                $get_method = SalesPaymentModel::where('idventa', $id)
+//                    ->get();
+//                foreach ($get_method as $nrow) {
+//                    $method = $nrow->metodo;
+//                }
                 if ( $order_status == "Pendiente" ) {
                     $order_status = "<label class='label label-danger'>Pendiente</label>";
                 } else if ( $order_status == "En Proceso" ){

@@ -208,7 +208,17 @@
                                         @foreach( $sales_state as $state )
                                             <tr>
                                                 <td>{{$state->fetcha_hora}}</td>
-                                                <td >{{$state->estado}}</td>
+                                                @if($state->estado == "Pendiente")
+                                                    <td class="text-center"> <label class="label label-warning"><strong> Pendiente </strong></label></td>
+                                                @elseif($state->estado == "En Proceso")
+                                                    <td class="text-center"> <label class="label label-warning"><strong> En Proceso </strong></label></td>
+                                                @elseif($state->estado == "En Ruta")
+                                                    <td class="text-center"> <label class="label label-info"><strong> En Ruta </strong></label></td>
+                                                @elseif($state->estado == "Entregado")
+                                                    <td class="text-center"> <label class="label label-success"><strong> Entregado </strong></label></td>
+                                                @elseif($state->estado == "No Entregado")
+                                                    <td class="text-center"> <label class="label label-danger"><strong> No Entregado </strong></label></td>
+                                                @endif
                                                 <td>{{$state->commentarios}}</td>
                                             </tr>
                                         @endforeach
